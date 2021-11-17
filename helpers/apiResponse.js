@@ -10,6 +10,7 @@ exports.successr = function (res, data) {
   var resData = {
     status: true,
     message: "success",
+    count: data.length,
     data: data,
   };
   return res.status(200).json(resData);

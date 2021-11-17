@@ -10,10 +10,10 @@ const {
 } = require("../controllers/plan");
 
 //Paths
-router.post("/user/addplan", addplan);
-router.post("/user/editplan/:id", editplan);
-router.get("/user/viewoneplan/:id", viewoneplan);
-router.get("/user/allplan", allplan);
-router.get("/user/deleteplan/:id", deleteplan);
+router.post("/admin/addplan", addplan);
+router.post("/admin/editplan/:id", editplan);
+router.get("/admin/viewoneplan/:id", viewoneplan);
+router.get("/admin/allplan", allplan);
+router.get("/admin/deleteplan/:id", deleteplan);
 
 module.exports = router;

@@ -8,10 +8,10 @@ const thisSchema = new Schema(
       require: true,
     },
     planprice: {
-      type: String,
+      type: Number,
     },
-    validity: {
-      type: String,
+    validityday: {
+      type: Number,
     },
     minute_balance: {
       type: Number,

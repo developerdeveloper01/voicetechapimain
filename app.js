@@ -19,6 +19,7 @@ const inquiry = require("./routes/inquiry");
 const providedip = require("./routes/providedip");
 const plan = require("./routes/plan");
 const dstnumber = require("./routes/dstnumber");
+const cdrreport = require("./routes/cdrreport");
 
 
 var app = express();
@@ -46,6 +47,7 @@ app.use("/api", inquiry);
 app.use("/api", providedip);
 app.use("/api", plan);
 app.use("/api", dstnumber);
+app.use("/api", cdrreport);
 
 mongoose
   .connect(process.env.DATABASE, {

@@ -1,20 +1,21 @@
 const Dstnumber = require("../models/dstnumber");
 const resp = require("../helpers/apiResponse");
+const fs = require("fs");
 
 exports.adddstnumber = async (req, res) => {
-  const { dstnumber, ip, alottedtouser, plan, ivr, extensions, inusestatus } =
+  const { did_no, ip, alottedtouser, plan, ivr, extensions, is_used } =
     req.body;
 
   const newDstnumber = new Dstnumber({
-    dstnumber: dstnumber,
+    did_no: did_no,
     ip: ip,
     alottedtouser: alottedtouser,
     plan: plan,
     ivr: ivr,
     extensions: extensions,
-    inusestatus: inusestatus,
+    is_used: is_used,
   });
-  const findexist = await Dstnumber.findOne({ dstnumber: dstnumber });
+  const findexist = await Dstnumber.findOne({ did_no: did_no });
   if (findexist) {
     resp.alreadyr(res);
   } else {
@@ -54,5 +55,14 @@ exports.alldstnumber = async (req, res) => {
 exports.deletedstnumber = async (req, res) => {
   await Dstnumber.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.addlldidno = async (req, res) => {
+  const getnumbers = require("../data.json");
+  console.log(getnumbers);
+  res.send(getnumbers.numbers)
+  await Dstnumber.insertMany(getnumbers.numbers)
+  .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };

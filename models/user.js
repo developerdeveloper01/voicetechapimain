@@ -26,7 +26,7 @@ const thisSchema = new Schema(
     organization_name: {
       type: String,
     },
-    companyName: { type: String },
+    alloted_did: { type: Schema.Types.ObjectId, ref: "dstnum" },
   },
   { timestamps: true }
 );

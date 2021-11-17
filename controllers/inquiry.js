@@ -2,12 +2,14 @@ const Inquiry = require("../models/inquiry");
 const resp = require("../helpers/apiResponse");
 
 exports.addinquiry = async (req, res) => {
-  const { name, sortorder, status } = req.body;
+  const { name, product,email,mobile, desc } = req.body;
 
   const newInquiry = new Inquiry({
     name: name,
-    sortorder: sortorder,
-    status: status,
+    product: product,
+    email: email,
+    mobile: mobile,
+    desc: desc,
   });
   const findexist = await Inquiry.findOne({ name: name });
   if (findexist) {

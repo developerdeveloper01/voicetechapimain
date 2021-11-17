@@ -12,8 +12,7 @@ exports.signup = async (req, res) => {
     email,
     mobile,
     password,
-    organization_name,
-    companyName,
+    organization_name
   } = req.body;
 
   //hashing password
@@ -27,7 +26,6 @@ exports.signup = async (req, res) => {
     mobile: mobile,
     password: hashPassword,
     organization_name: organization_name,
-    companyName: companyName,
   });
 
   const findexist = await User.findOne({
@@ -55,7 +53,7 @@ exports.signup = async (req, res) => {
           user: result,
         });
       })
-      .catch((error) => resp.Errorr(res, error));
+      .catch((error) => resp.errorr(res, error));
   }
 };
 
@@ -105,5 +103,43 @@ exports.setting = async (req, res) => {
     { new: true }
   )
     .then((data) => resp.successr(res, data))
-    .catch((error) => resp.Errorr(res, error));
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.edituser = async (req, res) => {
+  await User.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: req.body },
+    { new: true }
+  )
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.allusers = async (req, res) => {
+  await User.find()
+  .sort({ createdAt: 1 }).populate("alloted_did")
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.viewoneuser = async (req, res) => {
+  await User.findOne({_id: req.params.id})
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.allotnumbertouser = async (req, res) => {
+  await User.findOneAndUpdate({ _id: req.params.uid },
+    { $set: {alloted_did: req.params.nid} },
+    { new: true })
+  .sort({ createdAt: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.deleteuser = async (req, res) => {
+  await User.deleteOne({ _id: req.params.id })
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
 };
