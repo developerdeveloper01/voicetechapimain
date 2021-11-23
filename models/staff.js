@@ -29,6 +29,7 @@ const thisSchema = new Schema(
       default: true,
     },
     role: { type: Schema.Types.ObjectId, ref: "role" },
+    added_by: { type: Schema.Types.ObjectId, ref: "staff" }
   },
   { timestamps: true }
 );

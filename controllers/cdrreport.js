@@ -1,5 +1,13 @@
 const Cdrreport = require("../models/cdrreport");
 const resp = require("../helpers/apiResponse");
+var cron = require('node-cron');
+
+var task = cron.schedule('00 00 1 * * *', () =>  {
+  console.log('Job excuted at 1:00am sharp in the morning');
+  console.log(new Date());
+});
+
+task.start();
 
 exports.addcdrreport = async (req, res) => {
   const { Cdrreport, ip, alottedtouser, plan, ivr, extensions, inusestatus } =
