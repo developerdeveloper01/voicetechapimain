@@ -2,8 +2,8 @@ const Cdrreport = require("../models/cdrreport");
 const resp = require("../helpers/apiResponse");
 var cron = require('node-cron');
 
-var task = cron.schedule('00 00 1 * * *', () =>  {
-  console.log('Job excuted at 1:00am sharp in the morning');
+var task = cron.schedule('00 47 11 * * *', () =>  {
+  console.log('Job excuted at 11:47am sharp in the morning');
   console.log(new Date());
 });
 
@@ -116,6 +116,39 @@ exports.getdetailofonenumber = async (req,res)=>{
   .then((data) => resp.successr(res, data))
   .catch((error) => resp.errorr(res, error));
 }
+
+exports.outgoingcallcount = async (req,res)=>{
+  await Cdrreport.count({caller_id_name:req.params.id})
+  .then((data) => resp.successr(res, data))
+  .catch((error) => resp.errorr(res, error));
+}
+
+exports.incomingcallcount = async (req,res)=>{
+  await Cdrreport.count({destination_number:req.params.id})
+  .then((data) => resp.successr(res, data))
+  .catch((error) => resp.errorr(res, error));
+}
+
+exports.totalcallcount = async (req,res)=>{
+  await Cdrreport.count({$or:[ {destination_number:req.params.id},{caller_id_name:req.params.id}] })
+  .then((data) => resp.successr(res, data))
+  .catch((error) => resp.errorr(res, error));
+}
+
+
+exports.missedcallcount = async (req,res)=>{
+  await Cdrreport.count({$and:[ {caller_id_name:req.params.id},{billsec:"0"}] })
+  .then((data) => resp.successr(res, data))
+  .catch((error) => resp.errorr(res, error));
+}
+
+
+exports.getreceivedcalls = async (req,res)=>{
+  await Cdrreport.find({destination_number:req.params.id})
+  .then((data) => resp.successr(res, data))
+  .catch((error) => resp.errorr(res, error));
+}
+
 
 exports.getcalleridofall = async (req,res)=>{
   var totalextensionarray = []

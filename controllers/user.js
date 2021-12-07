@@ -129,6 +129,12 @@ exports.viewoneuser = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.myprofile = async (req, res) => {
+  await User.findOne({_id: req.userId})
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
 exports.allotnumbertouser = async (req, res) => {
   await User.findOneAndUpdate({ _id: req.params.uid },
     { $set: {alloted_did: req.params.nid} },

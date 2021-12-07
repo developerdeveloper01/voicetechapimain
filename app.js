@@ -20,6 +20,7 @@ const providedip = require("./routes/providedip");
 const plan = require("./routes/plan");
 const dstnumber = require("./routes/dstnumber");
 const cdrreport = require("./routes/cdrreport");
+const cdrfetch = require("./routes/cdrfetch");
 
 
 var app = express();
@@ -48,6 +49,7 @@ app.use("/api", providedip);
 app.use("/api", plan);
 app.use("/api", dstnumber);
 app.use("/api", cdrreport);
+app.use("/api", cdrfetch);
 
 mongoose
   .connect(process.env.DATABASE, {
