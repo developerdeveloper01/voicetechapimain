@@ -130,7 +130,7 @@ exports.viewoneuser = async (req, res) => {
 };
 
 exports.myprofile = async (req, res) => {
-  await User.findOne({_id: req.userId})
+  await User.findOne({_id: req.userId}).populate("alloted_did")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };

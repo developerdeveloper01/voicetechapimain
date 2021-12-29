@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { verifyToken } = require("../functions/admintoken");
 
 const {
   adddstnumber,
@@ -8,6 +9,7 @@ const {
   alldstnumber,
   deletedstnumber,
   addlldidno,
+  mydstnumbers
 } = require("../controllers/dstnumber");
 
 //Paths
@@ -16,6 +18,7 @@ router.post("/admin/editdstnumber/:id", editdstnumber);
 router.get("/admin/viewonedstnumber/:id", viewonedstnumber);
 router.get("/admin/alldstnumber", alldstnumber);
 router.get("/admin/addlldidno", addlldidno);
+router.get("/admin/mydstnumbers",verifyToken, mydstnumbers);
 router.get("/admin/deletedstnumber/:id", deletedstnumber);
 
 module.exports = router;

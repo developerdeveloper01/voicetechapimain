@@ -1,9 +1,9 @@
 const Cdrreport = require("../models/cdrreport");
 const resp = require("../helpers/apiResponse");
-var cron = require('node-cron');
+var cron = require("node-cron");
 
-var task = cron.schedule('00 47 11 * * *', () =>  {
-  console.log('Job excuted at 11:47am sharp in the morning');
+var task = cron.schedule("00 47 11 * * *", () => {
+  console.log("Job excuted at 11:47am sharp in the morning");
   console.log(new Date());
 });
 
@@ -41,7 +41,8 @@ exports.viewonecdrreport = async (req, res) => {
 
 exports.allcdrreport = async (req, res) => {
   await Cdrreport.find()
-    .sort({ created_time: 1 }).limit(2000)
+    .sort({ caller_id_name: 1 })
+    .limit(2000)
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
@@ -76,7 +77,7 @@ exports.addreportstomongodb = async (req, res) => {
   var request = require("request");
   var options = {
     method: "GET",
-    url: `http://103.8.43.14/onyx/api/cdr?start_date=2021-10-25&end_date=2021-10-25`,
+    url: `http://103.8.43.14/onyx/api/cdr?start_date=2021-12-07&end_date=2021-12-07`,
     headers: { "content-type": "application/x-www-form-urlencoded" },
     form: {},
   };
@@ -98,11 +99,11 @@ exports.addreportstomongodb = async (req, res) => {
         await Cdrreport.insertMany(toinsertarray)
           .then((data) => {
             res.status(200).json("Data added Successfully!!");
-            console.log(data)
+            console.log(data);
           })
           .catch((error) => {
             res.status(200).json(error);
-            console.log(error)
+            console.log(error);
           });
       };
       toupload();
@@ -110,55 +111,231 @@ exports.addreportstomongodb = async (req, res) => {
   });
 };
 
+exports.getdetailofonenumber = async (req, res) => {
+  await Cdrreport.find({ caller_id_name: req.params.id })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
-exports.getdetailofonenumber = async (req,res)=>{
-  await Cdrreport.find({caller_id_name:req.params.id})
-  .then((data) => resp.successr(res, data))
-  .catch((error) => resp.errorr(res, error));
-}
+exports.outgoingcallcount = async (req, res) => {
+  await Cdrreport.count({ caller_id_name: req.params.id })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
-exports.outgoingcallcount = async (req,res)=>{
-  await Cdrreport.count({caller_id_name:req.params.id})
-  .then((data) => resp.successr(res, data))
-  .catch((error) => resp.errorr(res, error));
-}
+exports.getdetailincoming = async (req, res) => {
+  await Cdrreport.find({ destination_number: req.params.id })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
-exports.incomingcallcount = async (req,res)=>{
-  await Cdrreport.count({destination_number:req.params.id})
-  .then((data) => resp.successr(res, data))
-  .catch((error) => resp.errorr(res, error));
-}
+exports.incomingcallcount = async (req, res) => {
+  await Cdrreport.count({ destination_number: req.params.id })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
-exports.totalcallcount = async (req,res)=>{
-  await Cdrreport.count({$or:[ {destination_number:req.params.id},{caller_id_name:req.params.id}] })
-  .then((data) => resp.successr(res, data))
-  .catch((error) => resp.errorr(res, error));
-}
+exports.totalcallcount = async (req, res) => {
+  await Cdrreport.count({
+    $or: [
+      { destination_number: req.params.id },
+      { caller_id_name: req.params.id },
+    ],
+  })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.totalcalldetails = async (req, res) => {
+  await Cdrreport.find({
+    $or: [
+      { destination_number: req.params.id },
+      { caller_id_name: req.params.id },
+    ],
+  })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.regexsearch = async (req, res) => {
+  const { searchinput } = req.body;
+
+  await Cdrreport.find({
+    $or: [
+      { caller_id_name: { $regex: searchinput, $options: "i" } },
+      { destination_number: { $regex: searchinput, $options: "i" } },
+    ],
+  })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.missedcalls = async (req, res) => {
+  await Cdrreport.find({
+    $and: [{ caller_id_name: req.params.id }, { billsec: "0" }],
+  })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.missedcallcount = async (req, res) => {
+  await Cdrreport.count({
+    $and: [{ caller_id_name: req.params.id }, { billsec: "0" }],
+  })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.getreceivedcalls = async (req, res) => {
+  await Cdrreport.find({ destination_number: req.params.id })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.getcalleridofall = async (req, res) => {
+  var totalextensionarray = [];
+  await Cdrreport.find()
+    .then((data) => {
+      for (let i = 0; i < data.length; i++) {
+        totalextensionarray.push(data.caller_id_name[i]);
+      }
+      console.log(totalextensionarray);
+      resp.successr(res, totalextensionarray);
+    })
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.getweekdaywisedata = async (req, res) => {
+  let today = new Date()
+  console.log(today)
+  console.log(today.getDay())
+
+  let onedayago = today.setDate(today.getDate() - 1);
+  console.log(new Date(onedayago))
+  console.log(new Date(onedayago).getDay())
+
+  let twodayago = today.setDate(today.getDate() - 1);
+  console.log(new Date(twodayago))
+  console.log(new Date(twodayago).getDay())
+
+  let threedayago = today.setDate(today.getDate() - 1);
+  console.log(new Date(threedayago))
+  console.log(new Date(threedayago).getDay())
+
+  let fourdayago = today.setDate(today.getDate() - 1);
+  console.log(new Date(fourdayago))
+  console.log(new Date(fourdayago).getDay())
+
+  let fivedayago = today.setDate(today.getDate() - 1);
+  console.log(new Date(fivedayago))
+  console.log(new Date(fivedayago).getDay())
+
+  let sixdayago = today.setDate(today.getDate() - 1);
+  console.log(new Date(sixdayago))
+  console.log(new Date(sixdayago).getDay())
+
+  let sevendayago = today.setDate(today.getDate() - 1);
+  console.log(new Date(sevendayago))
+  console.log(new Date(sevendayago).getDay())
 
 
-exports.missedcallcount = async (req,res)=>{
-  await Cdrreport.count({$and:[ {caller_id_name:req.params.id},{billsec:"0"}] })
-  .then((data) => resp.successr(res, data))
-  .catch((error) => resp.errorr(res, error));
-}
+  let onedayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
+          createdAt: {
+            $gte: new Date(onedayago),
+          },
+        },]})
+
+        let twodayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
+          createdAt: {
+            $gte: new Date(twodayago),
+            $lt: new Date(onedayago)
+          },
+        },]})
+
+        let threedayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
+          createdAt: {
+            $gte: new Date(threedayago),
+            $lt: new Date(twodayago)
+          },
+        },]})
+
+        let fourdayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
+          createdAt: {
+            $gte: new Date(fourdayago),
+            $lt: new Date(threedayago)
+          },
+        },]})
+
+        let fivedayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
+          createdAt: {
+            $gte: new Date(fivedayago),
+            $lt: new Date(fourdayago)
+          },
+        },]})
 
 
-exports.getreceivedcalls = async (req,res)=>{
-  await Cdrreport.find({destination_number:req.params.id})
-  .then((data) => resp.successr(res, data))
-  .catch((error) => resp.errorr(res, error));
-}
+        let sixdayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
+          createdAt: {
+            $gte: new Date(sixdayago),
+            $lt: new Date(fivedayago)
+          },
+        },]})
+
+        let sevendayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
+          createdAt: {
+            $gte: new Date(sevendayago),
+            $lt: new Date(sixdayago)
+          },
+        },]})
 
 
-exports.getcalleridofall = async (req,res)=>{
-  var totalextensionarray = []
-  await Cdrreport.find().then((data)=>{
-    for (let i = 0; i < data.length; i++) {
-      totalextensionarray.push(data.caller_id_name[i])
-    }
-    console.log(totalextensionarray)
-    resp.successr(res,totalextensionarray)
-  }).catch((error)=> resp.errorr(res,error))
-}
+        res.json({
+          onedayagoweekday: new Date(onedayago).getDay(),
+          onedayagocalls: onedayagocount,
+          twodayagoweekday: new Date(twodayago).getDay(),
+          twodayagocalls: twodayagocount,
+          threedayagoweekday: new Date(threedayago).getDay(),
+          threedayagocalls: threedayagocount,
+          fourdayagoweekday: new Date(fourdayago).getDay(),
+          fourdayagocalls: fourdayagocount,
+          fivedayagoweekday: new Date(fivedayago).getDay(),
+          fivedayagocalls: fivedayagocount,
+          sixdayagoweekday: new Date(sixdayago).getDay(),
+          sixdayagocalls: sixdayagocount,
+          sevendayagoweekday: new Date(sevendayago).getDay(),
+          sevendayagocalls: sevendayagocount,
+        })
 
-//1d5f9a9e-2b8c-4f55-b351-113a49572dd5
+  // let year = "2021";
+  // let month = "12";
+  // let day = "08";
+  // let inputdate = `${year}-${month}-${day} 22:50:20`
+  // var k = new Date("2021-12-07 22:50:20");
+  // day = k.getDay();
+
+  // //dateto
+
+  // await Cdrreport.count({
+  //   $and: [
+  //     { caller_id_name: "2581" },
+  //     {
+  //       created_time: {
+  //         $gte: "2021-12-07 22:50:20",
+  //         $lt: "2021-12-08 22:50:20"
+  //       },
+  //     },
+  //   ],
+  // })
+  //   .then((data) => res.json({
+  //     "Total":data,
+  //     "Tuesday":day
+  //   }))
+  //   .catch((error) => resp.errorr(res, error));
+};
+
+
+exports.allcdrcount = async (req, res) => {
+  await Cdrreport.count()
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};

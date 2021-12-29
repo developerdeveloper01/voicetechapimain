@@ -1,4 +1,5 @@
 const Role = require("../models/role");
+const Staff = require("../models/staff");
 const resp = require("../helpers/apiResponse");
 
 exports.addrole = async (req, res) => {
@@ -6,28 +7,14 @@ exports.addrole = async (req, res) => {
     name,
     sortorder,
     status,
-    r_calldetails,
-    w_calldetails,
-    r_userdetails,
-    w_userdetails,
-    r_sip,
-    w_sip,
-    r_ivr,
-    w_ivr,
+    permissions
   } = req.body;
 
   const newRole = new Role({
     name: name,
     sortorder: sortorder,
     status: status,
-    r_calldetails: r_calldetails,
-    w_calldetails: w_calldetails,
-    r_userdetails: r_userdetails,
-    w_userdetails: w_userdetails,
-    r_sip: r_sip,
-    w_sip: w_sip,
-    r_ivr: r_ivr,
-    w_ivr: w_ivr,
+    permissions: permissions
   });
   const findexist = await Role.findOne({ name: name });
   if (findexist) {
@@ -65,8 +52,31 @@ exports.allrole = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.lowerrolesthanmine = async (req, res) => {
+  //const data = 
+  const myroleid = await Staff.findOne({ _id: req.staffId }).populate('role')
+  // .then((data)=>{
+
+  // })
+  if(myroleid){
+    console.log(myroleid?.role.sortorder)
+    await Role.find({sortorder:{$gte: parseInt(myroleid?.role.sortorder)+1} })
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+  }else{
+    res.json({status: false,
+      message: "error",
+      error: "some error occurred"})
+  }
+};
+
+
 exports.deleterole = async (req, res) => {
   await Role.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+
+

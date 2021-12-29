@@ -3,8 +3,8 @@ const Cdrfetch = require("../models/cdrfetch");
 const resp = require("../helpers/apiResponse");
 var cron = require('node-cron');
 
-var task = cron.schedule('00 00 1 * * *', () =>  {
-    console.log('Job excuted at 1:00am sharp in the morning');
+var task = cron.schedule('00 30 11 * * *', () =>  {
+    console.log('Job excuted at 11:30am sharp in the morning');
     this.checkifapiexecute();
   });
   

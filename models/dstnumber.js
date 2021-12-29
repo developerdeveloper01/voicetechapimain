@@ -15,6 +15,11 @@ const dstNumberSchema = new Schema(
     voice_channel: { type: String  },
     itsp_name: { type: String  },
     service_type: { type: String  },
+    giventolevel1: { type: Schema.Types.ObjectId, ref: "staff"  },
+    giventolevel2: { type: Schema.Types.ObjectId, ref: "staff"  },
+    giventolevel3: { type: Schema.Types.ObjectId, ref: "staff"  },
+    giventolevel4: { type: Schema.Types.ObjectId, ref: "staff"  },
+    giventolevel5: { type: Schema.Types.ObjectId, ref: "staff"  },
     
   },
   { timestamps: true }
