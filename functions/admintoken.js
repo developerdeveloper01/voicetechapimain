@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 exports.verifyToken = (req, res, next) => {
   let token = req.headers["ad-token"];
 
+  console.log(token)
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
   }
@@ -15,4 +16,5 @@ exports.verifyToken = (req, res, next) => {
     req.staffId = decoded.staffId;
     next();
   });
+
 };
