@@ -9,6 +9,7 @@ const {
   stafflogin,
   editstaff,
   viewonestaff,
+  addsubstaff,
   viewstaffbytoken,
   allstaff,
   deletestaff,
@@ -25,6 +26,7 @@ router.post("/admin/stafflogin",body('mobile').isNumeric(),check('password')
 router.post("/admin/editstaff/:id", editstaff);
 router.get("/admin/viewonestaff/:id", viewonestaff);
 router.get("/admin/viewonestaff",verifyToken, viewstaffbytoken);
+router.post("/admin/addsubstaff",verifyToken, addsubstaff);
 router.get("/admin/viewmystaff",verifyToken, getstaffaddedbyuser);
 router.get("/admin/allstaff", allstaff);
 router.get("/admin/deletestaff/:id", deletestaff);

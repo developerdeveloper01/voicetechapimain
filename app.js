@@ -21,6 +21,8 @@ const plan = require("./routes/plan");
 const dstnumber = require("./routes/dstnumber");
 const cdrreport = require("./routes/cdrreport");
 const cdrfetch = require("./routes/cdrfetch");
+const agent = require("./routes/agent");
+const chat = require("./routes/chat");
 
 
 var app = express();
@@ -50,6 +52,8 @@ app.use("/api", plan);
 app.use("/api", dstnumber);
 app.use("/api", cdrreport);
 app.use("/api", cdrfetch);
+app.use("/api", agent);
+app.use("/api", chat);
 
 mongoose
   .connect(process.env.DATABASE, {

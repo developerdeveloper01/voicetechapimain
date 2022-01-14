@@ -37,6 +37,39 @@ exports.addstaff = async (req, res) => {
   }
 };
 
+
+exports.addsubstaff = async (req, res) => {
+  const { firstname, lastname, email, mobile, password, approvedstatus, role } =
+    req.body;
+
+    //hashing password
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(password, salt);
+
+  const newStaff = new Staff({
+    firstname: firstname,
+    lastname: lastname,
+    email: email,
+    mobile: mobile,
+    password: hashPassword,
+    role: role,
+    approvedstatus: approvedstatus,
+    added_by: req.staffId,
+  });
+
+  const findexist = await Staff.findOne({
+    $or: [{ email: email }, { mobile: mobile }],
+  });
+  if (findexist) {
+    resp.alreadyr(res);
+  } else {
+    newStaff
+      .save()
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  }
+};
+
 exports.stafflogin = async (req, res) => {
 
 
