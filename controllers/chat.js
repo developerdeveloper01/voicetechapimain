@@ -96,4 +96,10 @@ exports.deleteallchat = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.clearchat = async (req, res) => {
+  await Chat.deleteMany({ userid: req.params.id })
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
 

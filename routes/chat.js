@@ -8,7 +8,8 @@ const {
   allchatwithuser,
   getallchatrooms,
   markasread,
-  deleteallchat
+  deleteallchat,
+  clearchat
 } = require("../controllers/chat");
 
 //Paths
@@ -19,5 +20,6 @@ router.get("/admin/allchatwithuser/:id", allchatwithuser);
 router.get("/admin/markasread/:id", markasread);
 router.get("/admin/deletechat/:id", deletechat);
 router.get("/admin/deleteallchat/:id", deleteallchat);
+router.get("/admin/clearchat/:id", clearchat);
 
 module.exports = router;
