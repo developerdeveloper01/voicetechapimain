@@ -86,7 +86,7 @@ exports.stafflogin = async (req, res) => {
 
   const staff = await Staff.findOne({
     $or: [{ mobile: mobile }, { email: email }],
-  });
+  }).populate('role');
   if (staff) {
     const validPass = await bcrypt.compare(password, staff.password);
     if (validPass) {
