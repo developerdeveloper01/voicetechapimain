@@ -94,8 +94,8 @@ exports.stafflogin = async (req, res) => {
     $or: [{ mobile: mobile }, { email: email }],
   }).populate("role");
   if (staff) {
-    console.log(staff.approvedstatus);
-    // if (staff.approvedstatus == true ) {
+    console.log(staff);
+    if (staff.approvedstatus == true ) {
       const validPass = await bcrypt.compare(password, staff.password);
       if (validPass) {
         const token = jwt.sign(
@@ -116,17 +116,17 @@ exports.stafflogin = async (req, res) => {
       } else {
         res.status(400).json({
           status: false,
-          msg: "Profile is not verified yet",
+          msg: "Incorrect Password",
           error: "error",
         });
       }
-    // } else {
-    //   res.status(400).json({
-    //     status: false,
-    //     msg: "Incorrect Password",
-    //     error: "error",
-    //   });
-    // }
+    } else {
+      res.status(400).json({
+        status: false,
+        msg: "Profile is under verification",
+        error: "error",
+      });
+    }
   } else {
     res.status(400).json({
       status: false,
