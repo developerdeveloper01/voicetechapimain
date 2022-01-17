@@ -95,7 +95,7 @@ exports.stafflogin = async (req, res) => {
   }).populate("role");
   if (staff) {
     console.log(staff.approvedstatus);
-    if (staff.approvedstatus) {
+    if (staff.approvedstatus == true ) {
       const validPass = await bcrypt.compare(password, staff.password);
       if (validPass) {
         const token = jwt.sign(
