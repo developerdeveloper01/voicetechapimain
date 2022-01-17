@@ -3,13 +3,22 @@ const resp = require("../helpers/apiResponse");
 const bcrypt = require("bcryptjs");
 const key = "verysecretkey";
 const jwt = require("jsonwebtoken");
-const { body, validationResult } = require('express-validator');
+const { body, validationResult } = require("express-validator");
+const staff = require("../models/staff");
 
 exports.addstaff = async (req, res) => {
-  const { firstname, lastname, email, mobile, password, approvedstatus, role,added_by } =
-    req.body;
+  const {
+    firstname,
+    lastname,
+    email,
+    mobile,
+    password,
+    approvedstatus,
+    role,
+    added_by,
+  } = req.body;
 
-    //hashing password
+  //hashing password
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
 
@@ -37,12 +46,11 @@ exports.addstaff = async (req, res) => {
   }
 };
 
-
 exports.addsubstaff = async (req, res) => {
   const { firstname, lastname, email, mobile, password, approvedstatus, role } =
     req.body;
 
-    //hashing password
+  //hashing password
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
 
@@ -71,12 +79,10 @@ exports.addsubstaff = async (req, res) => {
 };
 
 exports.stafflogin = async (req, res) => {
-
-
   const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-       return res.status(400).json(errors);
-    }
+  if (!errors.isEmpty()) {
+    return res.status(400).json(errors);
+  }
 
   const { mobile, email, password } = req.body;
 
@@ -86,25 +92,34 @@ exports.stafflogin = async (req, res) => {
 
   const staff = await Staff.findOne({
     $or: [{ mobile: mobile }, { email: email }],
-  }).populate('role');
+  }).populate("role");
   if (staff) {
-    const validPass = await bcrypt.compare(password, staff.password);
-    if (validPass) {
-      const token = jwt.sign(
-        {
-          staffId: staff._id,
-        },
-        key,
-        {
-          expiresIn: '365d',
-        }
-      );
-      res.header("ad-token", token).status(200).send({
-        status: true,
-        ad_token: token,
-        msg: "success",
-        staff: staff,
-      });
+    //const checkapprovedstatus = staff.approvedstatus;
+    if (staff.approvedstatus) {
+      const validPass = await bcrypt.compare(password, staff.password);
+      if (validPass) {
+        const token = jwt.sign(
+          {
+            staffId: staff._id,
+          },
+          key,
+          {
+            expiresIn: "365d",
+          }
+        );
+        res.header("ad-token", token).status(200).send({
+          status: true,
+          ad_token: token,
+          msg: "success",
+          staff: staff,
+        });
+      } else {
+        res.status(400).json({
+          status: false,
+          msg: "Profile is not verified yet",
+          error: "error",
+        });
+      }
     } else {
       res.status(400).json({
         status: false,
@@ -140,20 +155,28 @@ exports.viewonestaff = async (req, res) => {
 };
 
 exports.viewstaffbytoken = async (req, res) => {
-  await Staff.findOne({ _id: req.staffId }).populate("role").populate("added_by")
+  await Staff.findOne({ _id: req.staffId })
+    .populate("role")
+    .populate("added_by")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.allstaff = async (req, res) => {
-  await Staff.find().populate("role").populate("added_by")
+  await Staff.find()
+    .populate("role")
+    .populate("added_by")
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.getstaffaddedbyuser = async (req, res) => {
-  await Staff.find({$and:[{added_by:req.staffId},{_id: {$ne:req.staffId}}]}).populate("role").populate("added_by")
+  await Staff.find({
+    $and: [{ added_by: req.staffId }, { _id: { $ne: req.staffId } }],
+  })
+    .populate("role")
+    .populate("added_by")
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
