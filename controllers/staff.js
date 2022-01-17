@@ -79,10 +79,10 @@ exports.addsubstaff = async (req, res) => {
 };
 
 exports.stafflogin = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json(errors);
-  }
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return res.status(400).json(errors);
+  // }
 
   const { mobile, email, password } = req.body;
 
