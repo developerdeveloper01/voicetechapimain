@@ -94,7 +94,7 @@ exports.stafflogin = async (req, res) => {
     $or: [{ mobile: mobile }, { email: email }],
   }).populate("role");
   if (staff) {
-    //const checkapprovedstatus = staff.approvedstatus;
+    console.log(staff.approvedstatu);
     if (staff.approvedstatus) {
       const validPass = await bcrypt.compare(password, staff.password);
       if (validPass) {
