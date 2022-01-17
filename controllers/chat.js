@@ -22,17 +22,17 @@ exports.addchat = async (req, res) => {
   const findchatroom = await Chatroom.findOne({ userid: userid });
   if (findchatroom) {
     newChat.roomid = findchatroom._id;
-    let data ={
-        new_unread_msg: parseInt(findchatroom.new_unread_msg) + 1,
+    let data = {
+      new_unread_msg: parseInt(findchatroom.new_unread_msg) + 1,
+    };
+    if (!msgbysupport) {
+      data.last_msg = msg;
     }
-    if(!msgbysupport){
-        data.last_msg = msg
-    }
-    console.log(data)
+    console.log(data);
     const updatechat = await Chatroom.findOneAndUpdate(
       { userid: userid },
       {
-        $set: data
+        $set: data,
       },
       { new: true }
     );
@@ -67,21 +67,34 @@ exports.allchatwithuser = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.unreadmessages = async (req, res) => {
+  await Chatroom.findOne({ userid: req.params.id })
+    .populate("userid")
+    .sort({ createdAt: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
 exports.getallchatrooms = async (req, res) => {
-  await Chatroom.find().populate('userid').sort({ updatedAt: 1 })
+  await Chatroom.find()
+    .populate("userid")
+    .sort({ updatedAt: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.markasread = async (req, res) => {
-    await Chatroom.findOneAndUpdate({ userid: req.params.id },
-        {
-          $set: {new_unread_msg: 0}
-        },
-        { new: true }).populate('userid')
-      .then((data) => resp.successr(res, data))
-      .catch((error) => resp.errorr(res, error));
-  };
+  await Chatroom.findOneAndUpdate(
+    { userid: req.params.id },
+    {
+      $set: { new_unread_msg: 0 },
+    },
+    { new: true }
+  )
+    .populate("userid")
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
 exports.deletechat = async (req, res) => {
   await Chat.deleteOne({ _id: req.params.id })
@@ -90,7 +103,7 @@ exports.deletechat = async (req, res) => {
 };
 
 exports.deleteallchat = async (req, res) => {
-  await Chatroom.deleteOne({ userid: req.params.id })
+  await Chatroom.deleteOne({ userid: req.params.id });
   await Chat.deleteMany({ userid: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
@@ -101,5 +114,3 @@ exports.clearchat = async (req, res) => {
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
-

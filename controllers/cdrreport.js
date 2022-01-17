@@ -159,7 +159,6 @@ exports.totalcalldetails = async (req, res) => {
 
 exports.regexsearch = async (req, res) => {
   const { searchinput } = req.body;
-
   await Cdrreport.find({
     $or: [
       { caller_id_name: { $regex: searchinput, $options: "i" } },
@@ -205,106 +204,165 @@ exports.getcalleridofall = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.allcalldetails = async (req, res) => {
+  console.log(req.params.id);
+  const total = await Cdrreport.count({
+    $or: [
+      { destination_number: req.params.id },
+      { caller_id_name: req.params.id },
+    ],
+  });
+  if (total) {
+    const outgoing = await Cdrreport.count({ caller_id_name: req.params.id });
+
+    const incoming = await Cdrreport.count({
+      destination_number: req.params.id,
+    });
+
+    const missedcall = await Cdrreport.count({
+      $and: [{ caller_id_name: req.params.id }, { billsec: "0" }],
+    });
+    res.status(200).json({
+      total: total,
+      outgoing: outgoing,
+      incoming: incoming,
+      missedcall: missedcall,
+    });
+  }
+};
+
 exports.getweekdaywisedata = async (req, res) => {
-  let today = new Date()
-  console.log(today)
-  console.log(today.getDay())
+  let today = new Date();
+  console.log(today);
+  console.log(today.getDay());
 
   let onedayago = today.setDate(today.getDate() - 1);
-  console.log(new Date(onedayago))
-  console.log(new Date(onedayago).getDay())
+  console.log(new Date(onedayago));
+  console.log(new Date(onedayago).getDay());
 
   let twodayago = today.setDate(today.getDate() - 1);
-  console.log(new Date(twodayago))
-  console.log(new Date(twodayago).getDay())
+  console.log(new Date(twodayago));
+  console.log(new Date(twodayago).getDay());
 
   let threedayago = today.setDate(today.getDate() - 1);
-  console.log(new Date(threedayago))
-  console.log(new Date(threedayago).getDay())
+  console.log(new Date(threedayago));
+  console.log(new Date(threedayago).getDay());
 
   let fourdayago = today.setDate(today.getDate() - 1);
-  console.log(new Date(fourdayago))
-  console.log(new Date(fourdayago).getDay())
+  console.log(new Date(fourdayago));
+  console.log(new Date(fourdayago).getDay());
 
   let fivedayago = today.setDate(today.getDate() - 1);
-  console.log(new Date(fivedayago))
-  console.log(new Date(fivedayago).getDay())
+  console.log(new Date(fivedayago));
+  console.log(new Date(fivedayago).getDay());
 
   let sixdayago = today.setDate(today.getDate() - 1);
-  console.log(new Date(sixdayago))
-  console.log(new Date(sixdayago).getDay())
+  console.log(new Date(sixdayago));
+  console.log(new Date(sixdayago).getDay());
 
   let sevendayago = today.setDate(today.getDate() - 1);
-  console.log(new Date(sevendayago))
-  console.log(new Date(sevendayago).getDay())
+  console.log(new Date(sevendayago));
+  console.log(new Date(sevendayago).getDay());
 
+  let onedayagocount = await Cdrreport.count({
+    $and: [
+      { caller_id_name: "2581" },
+      {
+        createdAt: {
+          $gte: new Date(onedayago),
+        },
+      },
+    ],
+  });
 
-  let onedayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
-          createdAt: {
-            $gte: new Date(onedayago),
-          },
-        },]})
+  let twodayagocount = await Cdrreport.count({
+    $and: [
+      { caller_id_name: "2581" },
+      {
+        createdAt: {
+          $gte: new Date(twodayago),
+          $lt: new Date(onedayago),
+        },
+      },
+    ],
+  });
 
-        let twodayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
-          createdAt: {
-            $gte: new Date(twodayago),
-            $lt: new Date(onedayago)
-          },
-        },]})
+  let threedayagocount = await Cdrreport.count({
+    $and: [
+      { caller_id_name: "2581" },
+      {
+        createdAt: {
+          $gte: new Date(threedayago),
+          $lt: new Date(twodayago),
+        },
+      },
+    ],
+  });
 
-        let threedayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
-          createdAt: {
-            $gte: new Date(threedayago),
-            $lt: new Date(twodayago)
-          },
-        },]})
+  let fourdayagocount = await Cdrreport.count({
+    $and: [
+      { caller_id_name: "2581" },
+      {
+        createdAt: {
+          $gte: new Date(fourdayago),
+          $lt: new Date(threedayago),
+        },
+      },
+    ],
+  });
 
-        let fourdayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
-          createdAt: {
-            $gte: new Date(fourdayago),
-            $lt: new Date(threedayago)
-          },
-        },]})
+  let fivedayagocount = await Cdrreport.count({
+    $and: [
+      { caller_id_name: "2581" },
+      {
+        createdAt: {
+          $gte: new Date(fivedayago),
+          $lt: new Date(fourdayago),
+        },
+      },
+    ],
+  });
 
-        let fivedayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
-          createdAt: {
-            $gte: new Date(fivedayago),
-            $lt: new Date(fourdayago)
-          },
-        },]})
+  let sixdayagocount = await Cdrreport.count({
+    $and: [
+      { caller_id_name: "2581" },
+      {
+        createdAt: {
+          $gte: new Date(sixdayago),
+          $lt: new Date(fivedayago),
+        },
+      },
+    ],
+  });
 
+  let sevendayagocount = await Cdrreport.count({
+    $and: [
+      { caller_id_name: "2581" },
+      {
+        createdAt: {
+          $gte: new Date(sevendayago),
+          $lt: new Date(sixdayago),
+        },
+      },
+    ],
+  });
 
-        let sixdayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
-          createdAt: {
-            $gte: new Date(sixdayago),
-            $lt: new Date(fivedayago)
-          },
-        },]})
-
-        let sevendayagocount = await Cdrreport.count({$and: [{ caller_id_name: "2581" },{
-          createdAt: {
-            $gte: new Date(sevendayago),
-            $lt: new Date(sixdayago)
-          },
-        },]})
-
-
-        res.json({
-          onedayagoweekday: new Date(onedayago).getDay(),
-          onedayagocalls: onedayagocount,
-          twodayagoweekday: new Date(twodayago).getDay(),
-          twodayagocalls: twodayagocount,
-          threedayagoweekday: new Date(threedayago).getDay(),
-          threedayagocalls: threedayagocount,
-          fourdayagoweekday: new Date(fourdayago).getDay(),
-          fourdayagocalls: fourdayagocount,
-          fivedayagoweekday: new Date(fivedayago).getDay(),
-          fivedayagocalls: fivedayagocount,
-          sixdayagoweekday: new Date(sixdayago).getDay(),
-          sixdayagocalls: sixdayagocount,
-          sevendayagoweekday: new Date(sevendayago).getDay(),
-          sevendayagocalls: sevendayagocount,
-        })
+  res.json({
+    onedayagoweekday: new Date(onedayago).getDay(),
+    onedayagocalls: onedayagocount,
+    twodayagoweekday: new Date(twodayago).getDay(),
+    twodayagocalls: twodayagocount,
+    threedayagoweekday: new Date(threedayago).getDay(),
+    threedayagocalls: threedayagocount,
+    fourdayagoweekday: new Date(fourdayago).getDay(),
+    fourdayagocalls: fourdayagocount,
+    fivedayagoweekday: new Date(fivedayago).getDay(),
+    fivedayagocalls: fivedayagocount,
+    sixdayagoweekday: new Date(sixdayago).getDay(),
+    sixdayagocalls: sixdayagocount,
+    sevendayagoweekday: new Date(sevendayago).getDay(),
+    sevendayagocalls: sevendayagocount,
+  });
 
   // let year = "2021";
   // let month = "12";
@@ -332,7 +390,6 @@ exports.getweekdaywisedata = async (req, res) => {
   //   }))
   //   .catch((error) => resp.errorr(res, error));
 };
-
 
 exports.allcdrcount = async (req, res) => {
   await Cdrreport.count()

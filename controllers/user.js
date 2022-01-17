@@ -124,7 +124,7 @@ exports.allusers = async (req, res) => {
 };
 
 exports.viewoneuser = async (req, res) => {
-  await User.findOne({_id: req.params.id})
+  await User.findOne({_id: req.params.id}).populate("alloted_did")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };

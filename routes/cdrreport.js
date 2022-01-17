@@ -20,7 +20,8 @@ const {
   getcalleridofall,
   getweekdaywisedata,
   regexsearch,
-  allcdrcount
+  allcdrcount,
+  allcalldetails
 } = require("../controllers/cdrreport");
 
 //Paths
@@ -41,6 +42,7 @@ router.get("/admin/totalcalldetails/:id", totalcalldetails);
 router.get("/admin/missedcallcount/:id", missedcallcount);
 router.get("/admin/missedcalls/:id", missedcalls);
 router.get("/admin/getreceivedcalls/:id", getreceivedcalls);
+router.get("/admin/allcalldetails/:id", allcalldetails);
 router.get("/admin/getcalleridofall", getcalleridofall);
 router.get("/admin/allcdrcount", allcdrcount);
 
