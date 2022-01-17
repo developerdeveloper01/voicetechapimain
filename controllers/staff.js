@@ -95,7 +95,7 @@ exports.stafflogin = async (req, res) => {
   }).populate("role");
   if (staff) {
     console.log(staff.approvedstatus);
-    if (staff.approvedstatus == true ) {
+    // if (staff.approvedstatus == true ) {
       const validPass = await bcrypt.compare(password, staff.password);
       if (validPass) {
         const token = jwt.sign(
@@ -120,13 +120,13 @@ exports.stafflogin = async (req, res) => {
           error: "error",
         });
       }
-    } else {
-      res.status(400).json({
-        status: false,
-        msg: "Incorrect Password",
-        error: "error",
-      });
-    }
+    // } else {
+    //   res.status(400).json({
+    //     status: false,
+    //     msg: "Incorrect Password",
+    //     error: "error",
+    //   });
+    // }
   } else {
     res.status(400).json({
       status: false,
