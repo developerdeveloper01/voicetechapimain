@@ -23,7 +23,8 @@ const cdrreport = require("./routes/cdrreport");
 const cdrfetch = require("./routes/cdrfetch");
 const agent = require("./routes/agent");
 const chat = require("./routes/chat");
-
+const billing = require("./routes/billing");
+const paytm = require("./routes/paytm");
 
 var app = express();
 
@@ -39,7 +40,6 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, "public")));
 
-
 //Use
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
@@ -54,12 +54,14 @@ app.use("/api", cdrreport);
 app.use("/api", cdrfetch);
 app.use("/api", agent);
 app.use("/api", chat);
+app.use("/api", billing);
+app.use("/api", paytm);
 
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   })
   .then(() => {
     console.log("DB connected");
