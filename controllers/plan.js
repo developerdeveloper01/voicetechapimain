@@ -13,7 +13,7 @@ exports.addplan = async (req, res) => {
   });
   const findexist = await Plan.findOne({ plantitle: plantitle });
   if (findexist) {
-    resp.alreadyr(res);
+    resp.alreadyr(res,'Title');
   } else {
     newPlan
       .save()

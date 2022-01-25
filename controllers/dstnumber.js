@@ -18,7 +18,7 @@ exports.adddstnumber = async (req, res) => {
   });
   const findexist = await Dstnumber.findOne({ did_no: did_no });
   if (findexist) {
-    resp.alreadyr(res);
+    resp.alreadyr(res,'DID');
   } else {
     newDstnumber
       .save()
@@ -81,6 +81,14 @@ exports.addlldidno = async (req, res) => {
 
 exports.mydstnumbers = async (req, res) => {
   await Dstnumber.find({giventolevel1:req.staffId})
+    .sort({ sortorder: 1 })
+    .populate("ip").populate('giventolevel1').populate('giventolevel2').populate('giventolevel3').populate('giventolevel4').populate('giventolevel5')
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.staffdstnumbers = async (req, res) => {
+  await Dstnumber.find({giventolevel1:req.params.id})
     .sort({ sortorder: 1 })
     .populate("ip").populate('giventolevel1').populate('giventolevel2').populate('giventolevel3').populate('giventolevel4').populate('giventolevel5')
     .then((data) => resp.successr(res, data))

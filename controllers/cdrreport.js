@@ -24,7 +24,7 @@ exports.addcdrreport = async (req, res) => {
   });
   const findexist = await Cdrreport.findOne({ Cdrreport: Cdrreport });
   if (findexist) {
-    resp.alreadyr(res);
+    resp.alreadyr(res,'Cdrreport');
   } else {
     newCdrreport
       .save()

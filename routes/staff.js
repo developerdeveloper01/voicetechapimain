@@ -18,11 +18,6 @@ const {
 
 //Paths
 router.post("/admin/addstaff", addstaff);
-// router.post("/admin/stafflogin",body('mobile').isNumeric(),check('password')
-// .isLength({ min: 6 })
-// .withMessage('must be at least 6 chars long')
-// .matches(/\d/)
-// .withMessage('must contain a number'),stafflogin);
 router.post("/admin/stafflogin", stafflogin);
 router.post("/admin/editstaff/:id", editstaff);
 router.get("/admin/viewonestaff/:id", viewonestaff);
