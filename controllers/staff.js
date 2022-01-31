@@ -33,11 +33,12 @@ exports.addstaff = async (req, res) => {
     added_by: added_by,
   });
 
-  const findexist = await Staff.findOne({
-    $or: [{ email: email }, { mobile: mobile }],
-  });
-  if (findexist) {
-    resp.alreadyr(res);
+  const emailexist = await Staff.findOne({ email: email });
+  const numberexist = await Staff.findOne({ mobile: mobile });
+  if (emailexist) {
+    resp.alreadyr(res,'Email');
+  }else if (numberexist) {
+    resp.alreadyr(res,'Mobile');
   } else {
     newStaff
       .save()
@@ -65,11 +66,12 @@ exports.addsubstaff = async (req, res) => {
     added_by: req.staffId,
   });
 
-  const findexist = await Staff.findOne({
-    $or: [{ email: email }, { mobile: mobile }],
-  });
-  if (findexist) {
-    resp.alreadyr(res);
+  const emailexist = await Staff.findOne({ email: email });
+  const numberexist = await Staff.findOne({ mobile: mobile });
+  if (emailexist) {
+    resp.alreadyr(res,'Email');
+  }else if (numberexist) {
+    resp.alreadyr(res,'Mobile');
   } else {
     newStaff
       .save()
@@ -149,7 +151,8 @@ exports.editstaff = async (req, res) => {
 };
 
 exports.viewonestaff = async (req, res) => {
-  await Staff.findOne({ _id: req.params.id })
+  await Staff.findOne({ _id: req.params.id }).populate("role")
+  .populate("added_by")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };

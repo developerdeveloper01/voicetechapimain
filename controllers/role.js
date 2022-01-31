@@ -18,7 +18,7 @@ exports.addrole = async (req, res) => {
   });
   const findexist = await Role.findOne({ name: name });
   if (findexist) {
-    resp.alreadyr(res);
+    resp.alreadyr(res,'Role Name');
   } else {
     newRole
       .save()

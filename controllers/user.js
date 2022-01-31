@@ -28,11 +28,12 @@ exports.signup = async (req, res) => {
     organization_name: organization_name,
   });
 
-  const findexist = await User.findOne({
-    $or: [{ email: email }, { mobile: mobile }],
-  });
-  if (findexist) {
-    resp.alreadyr(res);
+  const emailexist = await Staff.findOne({ email: email });
+  const numberexist = await Staff.findOne({ mobile: mobile });
+  if (emailexist) {
+    resp.alreadyr(res,'Email');
+  }else if (numberexist) {
+    resp.alreadyr(res,'Mobile');
   } else {
     newuser
       .save()

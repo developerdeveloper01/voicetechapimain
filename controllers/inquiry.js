@@ -13,7 +13,7 @@ exports.addinquiry = async (req, res) => {
   });
   const findexist = await Inquiry.findOne({ name: name });
   if (findexist) {
-    resp.alreadyr(res);
+    resp.alreadyr(res,"Name");
   } else {
     newInquiry
       .save()

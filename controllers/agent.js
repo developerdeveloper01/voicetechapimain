@@ -15,11 +15,12 @@ exports.addagent = async (req, res) => {
     approvedstatus: approvedstatus,
   });
 
-  const findexist = await Agent.findOne({
-    $or: [{ email: email }, { mobile: mobile }],
-  });
-  if (findexist) {
-    resp.alreadyr(res);
+  const emailexist = await Agent.findOne({ email: email });
+  const numberexist = await Agent.findOne({ mobile: mobile });
+  if (emailexist) {
+    resp.alreadyr(res,'Email');
+  }else if (numberexist) {
+    resp.alreadyr(res,'Mobile');
   } else {
     newAgent
       .save()

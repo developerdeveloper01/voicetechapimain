@@ -1,15 +1,15 @@
-exports.alreadyr = function (res) {
+exports.alreadyr = function (res,msg) {
   var data = {
     status: false,
-    message: "already exists",
+    msg: `${msg} already in use `,
   };
-  return res.status(403).json(data);
+  return res.status(400).json(data);
 };
 
 exports.successr = function (res, data) {
   var resData = {
     status: true,
-    message: "success",
+    msg: "success",
     count: data.length,
     data: data,
   };
@@ -19,7 +19,7 @@ exports.successr = function (res, data) {
 exports.errorr = function (res, error) {
   var data = {
     status: false,
-    message: "error",
+    msg: "error",
     error: error,
   };
   return res.status(400).json(data);
@@ -28,7 +28,7 @@ exports.errorr = function (res, error) {
 exports.deleter = function (res, data) {
   var data = {
     status: true,
-    message: "deleted",
+    msg: "deleted",
     deleteCount: data.deletedCount,
   };
   return res.status(200).json(data);
@@ -37,7 +37,7 @@ exports.deleter = function (res, data) {
 exports.validationErrorWithData = function (res, msg, data) {
   var resData = {
     status: false,
-    message: msg,
+    msg: msg,
     data: data,
   };
   return res.status(400).json(resData);
@@ -46,7 +46,7 @@ exports.validationErrorWithData = function (res, msg, data) {
 exports.unauthorizedResponse = function (res, msg) {
   var data = {
     status: false,
-    message: msg,
+    msg: msg,
   };
   return res.status(401).json(data);
 };

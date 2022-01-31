@@ -13,7 +13,7 @@ exports.addprovidedip = async (req, res) => {
     ipnumber: ipnumber,
   });
   if (findexist) {
-    resp.alreadyr(res);
+    resp.alreadyr(res,'IP');
   } else {
     newProvidedip
       .save()

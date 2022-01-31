@@ -9,7 +9,8 @@ const {
   alldstnumber,
   deletedstnumber,
   addlldidno,
-  mydstnumbers
+  mydstnumbers,
+  staffdstnumbers
 } = require("../controllers/dstnumber");
 
 //Paths
@@ -19,6 +20,7 @@ router.get("/admin/viewonedstnumber/:id", viewonedstnumber);
 router.get("/admin/alldstnumber", alldstnumber);
 router.get("/admin/addlldidno", addlldidno);
 router.get("/admin/mydstnumbers",verifyToken, mydstnumbers);
+router.get("/admin/staffdstnumbers/:id", staffdstnumbers);
 router.get("/admin/deletedstnumber/:id", deletedstnumber);
 
 module.exports = router;
