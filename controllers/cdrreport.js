@@ -20,7 +20,7 @@ exports.addcdrreport = async (req, res) => {
     plan: plan,
     ivr: ivr,
     extensions: extensions,
-    inusestatus: inusestatus,
+    inusestatus: inusestatus
   });
   const findexist = await Cdrreport.findOne({ Cdrreport: Cdrreport });
   if (findexist) {
@@ -59,7 +59,7 @@ exports.viewreportsfromneronserver = async (req, res) => {
     method: "GET",
     url: `http://103.8.43.14/onyx/api/cdr?start_date=2021-10-25&end_date=2021-10-25`,
     headers: { "content-type": "application/x-www-form-urlencoded" },
-    form: {},
+    form: {}
   };
 
   request(options, function (error, response, body) {
@@ -79,7 +79,7 @@ exports.addreportstomongodb = async (req, res) => {
     method: "GET",
     url: `http://103.8.43.14/onyx/api/cdr?start_date=2021-12-07&end_date=2021-12-07`,
     headers: { "content-type": "application/x-www-form-urlencoded" },
-    form: {},
+    form: {}
   };
 
   request(options, function (error, response, body) {
@@ -125,6 +125,7 @@ exports.outgoingcallcount = async (req, res) => {
 
 exports.getdetailincoming = async (req, res) => {
   await Cdrreport.find({ destination_number: req.params.id })
+    .sort({ created_time: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
@@ -139,8 +140,8 @@ exports.totalcallcount = async (req, res) => {
   await Cdrreport.count({
     $or: [
       { destination_number: req.params.id },
-      { caller_id_name: req.params.id },
-    ],
+      { caller_id_name: req.params.id }
+    ]
   })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
@@ -150,9 +151,10 @@ exports.totalcalldetails = async (req, res) => {
   await Cdrreport.find({
     $or: [
       { destination_number: req.params.id },
-      { caller_id_name: req.params.id },
-    ],
+      { caller_id_name: req.params.id }
+    ]
   })
+    .sort({ created_time: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
@@ -162,8 +164,8 @@ exports.regexsearch = async (req, res) => {
   await Cdrreport.find({
     $or: [
       { caller_id_name: { $regex: searchinput, $options: "i" } },
-      { destination_number: { $regex: searchinput, $options: "i" } },
-    ],
+      { destination_number: { $regex: searchinput, $options: "i" } }
+    ]
   })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
@@ -171,15 +173,16 @@ exports.regexsearch = async (req, res) => {
 
 exports.missedcalls = async (req, res) => {
   await Cdrreport.find({
-    $and: [{ caller_id_name: req.params.id }, { billsec: "0" }],
+    $and: [{ caller_id_name: req.params.id }, { billsec: "0" }]
   })
+    .sort({ created_time: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.missedcallcount = async (req, res) => {
   await Cdrreport.count({
-    $and: [{ caller_id_name: req.params.id }, { billsec: "0" }],
+    $and: [{ caller_id_name: req.params.id }, { billsec: "0" }]
   })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
@@ -187,6 +190,7 @@ exports.missedcallcount = async (req, res) => {
 
 exports.getreceivedcalls = async (req, res) => {
   await Cdrreport.find({ destination_number: req.params.id })
+    .sort({ created_time: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
@@ -209,24 +213,24 @@ exports.allcalldetails = async (req, res) => {
   const total = await Cdrreport.count({
     $or: [
       { destination_number: req.params.id },
-      { caller_id_name: req.params.id },
-    ],
+      { caller_id_name: req.params.id }
+    ]
   });
   if (total) {
     const outgoing = await Cdrreport.count({ caller_id_name: req.params.id });
 
     const incoming = await Cdrreport.count({
-      destination_number: req.params.id,
+      destination_number: req.params.id
     });
 
     const missedcall = await Cdrreport.count({
-      $and: [{ caller_id_name: req.params.id }, { billsec: "0" }],
+      $and: [{ caller_id_name: req.params.id }, { billsec: "0" }]
     });
     res.status(200).json({
       total: total,
       outgoing: outgoing,
       incoming: incoming,
-      missedcall: missedcall,
+      missedcall: missedcall
     });
   }
 };
@@ -269,10 +273,10 @@ exports.getweekdaywisedata = async (req, res) => {
       { caller_id_name: "2581" },
       {
         createdAt: {
-          $gte: new Date(onedayago),
-        },
-      },
-    ],
+          $gte: new Date(onedayago)
+        }
+      }
+    ]
   });
 
   let twodayagocount = await Cdrreport.count({
@@ -281,10 +285,10 @@ exports.getweekdaywisedata = async (req, res) => {
       {
         createdAt: {
           $gte: new Date(twodayago),
-          $lt: new Date(onedayago),
-        },
-      },
-    ],
+          $lt: new Date(onedayago)
+        }
+      }
+    ]
   });
 
   let threedayagocount = await Cdrreport.count({
@@ -293,10 +297,10 @@ exports.getweekdaywisedata = async (req, res) => {
       {
         createdAt: {
           $gte: new Date(threedayago),
-          $lt: new Date(twodayago),
-        },
-      },
-    ],
+          $lt: new Date(twodayago)
+        }
+      }
+    ]
   });
 
   let fourdayagocount = await Cdrreport.count({
@@ -305,10 +309,10 @@ exports.getweekdaywisedata = async (req, res) => {
       {
         createdAt: {
           $gte: new Date(fourdayago),
-          $lt: new Date(threedayago),
-        },
-      },
-    ],
+          $lt: new Date(threedayago)
+        }
+      }
+    ]
   });
 
   let fivedayagocount = await Cdrreport.count({
@@ -317,10 +321,10 @@ exports.getweekdaywisedata = async (req, res) => {
       {
         createdAt: {
           $gte: new Date(fivedayago),
-          $lt: new Date(fourdayago),
-        },
-      },
-    ],
+          $lt: new Date(fourdayago)
+        }
+      }
+    ]
   });
 
   let sixdayagocount = await Cdrreport.count({
@@ -329,10 +333,10 @@ exports.getweekdaywisedata = async (req, res) => {
       {
         createdAt: {
           $gte: new Date(sixdayago),
-          $lt: new Date(fivedayago),
-        },
-      },
-    ],
+          $lt: new Date(fivedayago)
+        }
+      }
+    ]
   });
 
   let sevendayagocount = await Cdrreport.count({
@@ -341,10 +345,10 @@ exports.getweekdaywisedata = async (req, res) => {
       {
         createdAt: {
           $gte: new Date(sevendayago),
-          $lt: new Date(sixdayago),
-        },
-      },
-    ],
+          $lt: new Date(sixdayago)
+        }
+      }
+    ]
   });
 
   res.json({
@@ -361,7 +365,7 @@ exports.getweekdaywisedata = async (req, res) => {
     sixdayagoweekday: new Date(sixdayago).getDay(),
     sixdayagocalls: sixdayagocount,
     sevendayagoweekday: new Date(sevendayago).getDay(),
-    sevendayagocalls: sevendayagocount,
+    sevendayagocalls: sevendayagocount
   });
 
   // let year = "2021";
