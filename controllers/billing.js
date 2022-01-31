@@ -31,13 +31,19 @@ exports.editbilling = async (req, res) => {
 };
 
 exports.viewonebilling = async (req, res) => {
-  await Billing.findOne({ _id: req.params.id })
+  await Billing.findOne({ _id: req.params.id }).populate("billingfor")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.allbilling = async (req, res) => {
-  await Billing.find()
+  await Billing.find().populate("billingfor")
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+exports.allmybilling = async (req, res) => {
+  await Billing.find({ billingfor: req.params.id }).populate("billingfor")
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

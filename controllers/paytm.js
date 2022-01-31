@@ -4,18 +4,21 @@ var PaytmChecksum = require("paytmChecksum");
 var paytmParams = {};
 
 /* initialize an array */
-paytmParams["MID"] = "hUrIPQ70388081414462";
-paytmParams["ORDERID"] = "neworder_123";
+paytmParams["MID"] = "hUrIPQ70388081414462";//hUrIPQ70388081414462
+paytmParams["ORDERID"] = "neworder_12345";
 
 exports.paytmpay = async (req, res) => {
   /**
    * Generate checksum by parameters we have
    * Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys
    */
+  console.log(req.body)
+
   var paytmChecksum = PaytmChecksum.generateSignature(
     paytmParams,
     "Z2@Dn0smzMJbC!N9"
   );
+  //console.log(paytmChecksum);
   paytmChecksum
     .then(function (checksum) {
       console.log("generateSignature Returns: " + checksum);
@@ -29,12 +32,12 @@ exports.paytmpay = async (req, res) => {
 
 exports.verifypay = async (req, res) => {
   /* import checksum generation utility */
-
+console.log(req.body)
   paytmChecksum = req.body.CHECKSUMHASH;
   delete req.body.CHECKSUMHASH;
 
   var isVerifySignature = PaytmChecksum.verifySignature(
-    req.body,
+    paytmParams,
     "Z2@Dn0smzMJbC!N9",
     paytmChecksum
   );

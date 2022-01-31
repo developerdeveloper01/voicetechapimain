@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const dstNumberSchema = new Schema(
   {
     billingfor: {
-      type: String
+      type: Schema.Types.ObjectId, ref: "user"
     },
     price: {
       type: Number
