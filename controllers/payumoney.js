@@ -78,7 +78,7 @@ exports.paysuccess = async (req, res) => {
 exports.payfail = async (req, res) => {
   console.log(req.body);
   //res.send(req.body);
-  res.redirect("http://3.111.139.178/v1/#/transaction-failed");
+  res.redirect("http://3.111.139.178/#/transaction-failed");
 };
 
 // const request = require("request");
