@@ -43,8 +43,8 @@ exports.paynownew = (req, res) => {
     amount: amount,
     productinfo: productInfo,
     txnid: Math.floor(Math.random() * 100000), //this must be a genrated at your side
-    surl: "http://localhost:4200/#/transaction-success",
-    furl: "http://localhost:4200/#/transaction-failed"
+    surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
+    furl: "http://3.111.139.178/v1/api/admin/payfail"
   };
   console.log(requestBody);
   payumoney.pay(requestBody, function (error, response) {
@@ -62,6 +62,23 @@ exports.paynownew = (req, res) => {
       console.log(response);
     }
   });
+};
+
+exports.paysuccess = async (req, res) => {
+  console.log(req.body);
+  //res.send(req.body);
+  res.redirect("http://3.111.139.178/#/transaction-success");
+  // res
+  //   .writeHead(400, {
+  //     Location: `http://localhost:4200/#/dashboard`
+  //   })
+  //   .end();
+};
+
+exports.payfail = async (req, res) => {
+  console.log(req.body);
+  //res.send(req.body);
+  res.redirect("http://3.111.139.178/v1/#/transaction-failed");
 };
 
 // const request = require("request");
