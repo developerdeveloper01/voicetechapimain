@@ -43,8 +43,8 @@ exports.paynownew = (req, res) => {
     amount: amount,
     productinfo: productInfo,
     txnid: Math.floor(Math.random() * 100000), //this must be a genrated at your side
-    surl: "http:localhost:4200/payment/success",
-    furl: "http:localhost:8080/payment/failure"
+    surl: "http://localhost:4200/#/transaction-success",
+    furl: "http://localhost:4200/#/transaction-failed"
   };
   console.log(requestBody);
   payumoney.pay(requestBody, function (error, response) {
