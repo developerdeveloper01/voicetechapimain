@@ -25,6 +25,7 @@ const agent = require("./routes/agent");
 const chat = require("./routes/chat");
 const billing = require("./routes/billing");
 const paytm = require("./routes/paytm");
+const payumoney = require("./routes/payumoney");
 const systemdetails = require("./routes/systemdetails");
 
 var app = express();
@@ -58,6 +59,7 @@ app.use("/api", chat);
 app.use("/api", billing);
 app.use("/api", paytm);
 app.use("/api", systemdetails);
+app.use("/api", payumoney);
 
 mongoose
   .connect(process.env.DATABASE, {
