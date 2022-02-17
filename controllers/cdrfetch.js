@@ -3,8 +3,8 @@ const Cdrfetch = require("../models/cdrfetch");
 const resp = require("../helpers/apiResponse");
 var cron = require('node-cron');
 
-var task = cron.schedule('00 30 11 * * *', () =>  {
-    console.log('Job excuted at 11:30am sharp in the morning');
+var task = cron.schedule('00 00 1 * * *', () =>  {
+    console.log('Job excuted at 1:00am sharp in the morning');
     this.checkifapiexecute();
   });
   
@@ -63,9 +63,10 @@ var task = cron.schedule('00 30 11 * * *', () =>  {
     var request = require("request");
     var options = {
       method: "GET",
-      url: `http://103.8.43.14/onyx/api/cdr?start_date=${MyDateString}&end_date=${MyDateString}`,
+      url: `http://103.8.43.14/onyxcxm/api/cdr?start_date=${MyDateString}&end_date=${MyDateString}`,
       headers: { "content-type": "application/x-www-form-urlencoded" },
       form: {},
+      //http://103.8.43.14/onyxcxm/api/cdr?start_date=2022-02-17&end_date=2022-02-17	
     };
     
     request(options, function (error, response, body) {

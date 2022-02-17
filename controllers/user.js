@@ -28,8 +28,8 @@ exports.signup = async (req, res) => {
     organization_name: organization_name,
   });
 
-  const emailexist = await Staff.findOne({ email: email });
-  const numberexist = await Staff.findOne({ mobile: mobile });
+  const emailexist = await User.findOne({ email: email });
+  const numberexist = await User.findOne({ mobile: mobile });
   if (emailexist) {
     resp.alreadyr(res,'Email');
   }else if (numberexist) {
