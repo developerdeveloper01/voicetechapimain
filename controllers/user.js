@@ -12,7 +12,8 @@ exports.signup = async (req, res) => {
     email,
     mobile,
     password,
-    organization_name
+    organization_name,
+    varifystatus,
   } = req.body;
 
   //hashing password
@@ -26,6 +27,7 @@ exports.signup = async (req, res) => {
     mobile: mobile,
     password: hashPassword,
     organization_name: organization_name,
+    varifystatus: varifystatus,
   });
 
   const emailexist = await User.findOne({ email: email });
@@ -63,7 +65,7 @@ exports.login = async (req, res) => {
   const user = await User.findOne({
     $or: [{ mobile: mobile }, { email: email }],
   });
-  if (user) {
+  if (user.varifystatus == true) {
     const validPass = await bcrypt.compare(password, user.password);
     if (validPass) {
       const token = jwt.sign(

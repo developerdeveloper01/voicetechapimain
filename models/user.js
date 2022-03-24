@@ -23,6 +23,11 @@ const thisSchema = new Schema(
     password: {
       type: String,
     },
+    varifystatus: {
+      type: Boolean,
+      default: true,
+    },
+
     organization_name: {
       type: String,
     },
