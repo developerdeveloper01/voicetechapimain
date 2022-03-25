@@ -25,7 +25,7 @@ const thisSchema = new Schema(
     },
     varifystatus: {
       type: Boolean,
-      default: true,
+      default: false,
     },
 
     organization_name: {
