@@ -27,6 +27,9 @@ const billing = require("./routes/billing");
 const paytm = require("./routes/paytm");
 const payumoney = require("./routes/payumoney");
 const systemdetails = require("./routes/systemdetails");
+const pospaidplan = require("./routes/pospaidplan");
+
+
 
 var app = express();
 
@@ -60,6 +63,7 @@ app.use("/api", billing);
 app.use("/api", paytm);
 app.use("/api", systemdetails);
 app.use("/api", payumoney);
+app.use("/api", pospaidplan);
 
 mongoose
   .connect(process.env.DATABASE, {
