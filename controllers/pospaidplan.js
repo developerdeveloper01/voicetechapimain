@@ -2,9 +2,10 @@ const Pospaidplan = require("../models/pospaidplan");
 const resp = require("../helpers/apiResponse");
 
 exports.addpospaidplan = async (req, res) => {
-  const { plantitle, planprice, validityday, minute_balance, desc } = req.body;
+  const { plantype,plantitle, planprice, validityday, minute_balance, desc } = req.body;
 
   const newPospaidplan = new Pospaidplan({
+    plantype:plantype,
     plantitle: plantitle,
     planprice: planprice,
     validityday: validityday,

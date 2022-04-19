@@ -3,6 +3,12 @@ const Schema = mongoose.Schema;
 
 const thisSchema = new Schema(
   {
+    plantype: {
+      type: String,
+      require: true,
+    },
+  
+
     plantitle: {
       type: String,
       require: true,
