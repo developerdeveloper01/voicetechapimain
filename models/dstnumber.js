@@ -7,7 +7,12 @@ const dstNumberSchema = new Schema(
       type: String,
     },
     ip: { type: Schema.Types.ObjectId, ref: "providedip" },
+
     alottedtouser: { type: Schema.Types.ObjectId, ref: "user" },
+    alotteduser: { type: Schema.Types.ObjectId, ref: "user" },
+
+
+
     plan: { type: Schema.Types.ObjectId, ref: "plan" },
     ivr: { type: String },
     extensions: { type: String },
