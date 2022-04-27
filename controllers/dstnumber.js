@@ -3,13 +3,12 @@ const resp = require("../helpers/apiResponse");
 const fs = require("fs");
 
 exports.adddstnumber = async (req, res) => {
-  const { did_no, ip,alotteduser, alottedtouser, plan, ivr, extensions, is_used ,giventolevel1} =
+  const { did_no, ip, alottedtouser, plan, ivr, extensions, is_used ,giventolevel1} =
     req.body;
 
   const newDstnumber = new Dstnumber({
     did_no: did_no,
     ip: ip,
-    alotteduser:alotteduser,
     alottedtouser: alottedtouser,
     plan: plan,
     ivr: ivr,
