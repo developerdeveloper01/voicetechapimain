@@ -20,10 +20,7 @@ const thisSchema = new Schema(
     mobile: {
       type: Number,
     },
-    adddstnumber: {
-      type: Number,
-    },
-   
+    
     password: {
       type: String,
     },
