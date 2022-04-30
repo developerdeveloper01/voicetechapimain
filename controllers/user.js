@@ -14,6 +14,7 @@ exports.signup = async (req, res) => {
     password,
     organization_name,
     varifystatus,
+    alloted_did,
   } = req.body;
 
   //hashing password
@@ -28,6 +29,8 @@ exports.signup = async (req, res) => {
     password: hashPassword,
     organization_name: organization_name,
     varifystatus: varifystatus,
+    alloted_did: alloted_did,
+
   });
 
   const emailexist = await User.findOne({ email: email });
@@ -121,7 +124,14 @@ exports.edituser = async (req, res) => {
 
 exports.allusers = async (req, res) => {
   await User.find()
-  .sort({ createdAt: 1 }).populate("alloted_did")
+  .sort({ createdAt: 1 })
+  .populate([
+    {
+      path: "alloted_did",
+      select: "did_no",
+    },
+  ])
+
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };

@@ -59,7 +59,7 @@ exports.viewonedstnumber = async (req, res) => {
 exports.alldstnumber = async (req, res) => {
   await Dstnumber.find()
     .sort({ sortorder: 1 })
-    .populate("ip").populate('giventolevel1').populate('giventolevel2').populate('giventolevel3').populate('giventolevel4').populate('giventolevel5')
+    .populate("ip").populate('giventolevel1').populate('giventolevel2').populate('giventolevel3').populate('giventolevel4').populate('giventolevel5').populate("alottedtouser")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
