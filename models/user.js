@@ -20,7 +20,6 @@ const thisSchema = new Schema(
     mobile: {
       type: Number,
     },
-    
     password: {
       type: String,
     },
@@ -28,12 +27,12 @@ const thisSchema = new Schema(
       type: Boolean,
       default: false,
     },
-
     organization_name: {
       type: String,
     },
-    alloted_did: { type: Schema.Types.ObjectId, ref: "dstnum" },
+    alloted_did: { type: Number },
   },
+
   { timestamps: true }
 );
 
