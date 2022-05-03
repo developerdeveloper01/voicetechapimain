@@ -27,12 +27,12 @@ const thisSchema = new Schema(
       type: Boolean,
       default: false,
     },
+
     organization_name: {
       type: String,
     },
     alloted_did: { type: Schema.Types.ObjectId, ref: "dstnum" },
   },
-
   { timestamps: true }
 );
 
