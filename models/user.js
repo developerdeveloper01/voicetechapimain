@@ -30,7 +30,7 @@ const thisSchema = new Schema(
     organization_name: {
       type: String,
     },
-    alloted_did: { type: Number },
+    alloted_did: { type: Schema.Types.ObjectId, ref: "user"  },
   },
 
   { timestamps: true }

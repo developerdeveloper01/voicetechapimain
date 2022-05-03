@@ -25,20 +25,20 @@ exports.adddstnumber = async (req, res) => {
     is_used: is_used,
     giventolevel1: giventolevel1,
   });
-  let dd = await User.findOne({ _id: req.body.alottedtouser });
-  console.log("did_no", dd);
-  if (dd) {
-    let find = await User.findOneAndUpdate(
-      {
-        _id: req.body.alottedtouser,
-      },
-      { $set: { alloted_did: req.body.did_no } },
-      {
-        new: true,
-      }
-    );
-    console.log("did_no", find);
-  }
+  // let dd = await User.findOne({ _id: req.body.alottedtouser });
+  // console.log("did_no", dd);
+  // if (dd) {
+  //   let find = await User.findOneAndUpdate(
+  //     {
+  //       _id: req.body.alottedtouser,
+  //     },
+  //     { $set: { alloted_did: req.body.did_no } },
+  //     {
+  //       new: true,
+  //     }
+  //   );
+  //   console.log("did_no", find);
+  // }
   const findexist = await Dstnumber.findOne({ did_no: did_no });
   if (findexist) {
     resp.alreadyr(res, "DID");
