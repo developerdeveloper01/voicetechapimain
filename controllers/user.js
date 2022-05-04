@@ -14,6 +14,7 @@ exports.signup = async (req, res) => {
     password,
     organization_name,
     varifystatus,
+    alloted_did
   } = req.body;
 
   //hashing password
@@ -28,6 +29,7 @@ exports.signup = async (req, res) => {
     password: hashPassword,
     organization_name: organization_name,
     varifystatus: varifystatus,
+    alloted_did:alloted_did,
   });
 
   const emailexist = await User.findOne({ email: email });
