@@ -122,7 +122,7 @@ exports.edituser = async (req, res) => {
 };
 
 exports.allusers = async (req, res) => {
-  await User.find().populate("alloted_did")
+  await User.find()
   .sort({ createdAt: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
