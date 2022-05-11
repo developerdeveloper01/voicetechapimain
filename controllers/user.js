@@ -12,9 +12,10 @@ exports.signup = async (req, res) => {
     email,
     mobile,
     password,
-    organization_name,
     varifystatus,
-    alloted_did
+    organization_name,
+
+    alloted_did,
   } = req.body;
 
   //hashing password
@@ -27,17 +28,16 @@ exports.signup = async (req, res) => {
     email: email,
     mobile: mobile,
     password: hashPassword,
-    organization_name: organization_name,
     varifystatus: varifystatus,
-    alloted_did:alloted_did,
+    alloted_did: alloted_did,
   });
 
   const emailexist = await User.findOne({ email: email });
   const numberexist = await User.findOne({ mobile: mobile });
   if (emailexist) {
-    resp.alreadyr(res,'Email');
-  }else if (numberexist) {
-    resp.alreadyr(res,'Mobile');
+    resp.alreadyr(res, "Email");
+  } else if (numberexist) {
+    resp.alreadyr(res, "Mobile");
   } else {
     newuser
       .save()
@@ -117,34 +117,48 @@ exports.edituser = async (req, res) => {
     { $set: req.body },
     { new: true }
   )
+    // .populate("alloted_did")
+
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.allusers = async (req, res) => {
+  console.log("enter");
   await User.find()
-  .sort({ createdAt: 1 })
+
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.viewoneuser = async (req, res) => {
-  await User.findOne({_id: req.params.id}).populate("alloted_did")
+  await User.findOne({ _id: req.params.id })
+    //.populate("alloted_did")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.myprofile = async (req, res) => {
-  await User.findOne({_id: req.userId}).populate("alloted_did")
+  await User.findOne({ _id: req.userId })
+    // .populate("alloted_did")
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+exports.adminapprove = async (req, res) => {
+  await User.findOne({ _id: req.userId })
+    // .populate("alloted_did")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.allotnumbertouser = async (req, res) => {
-  await User.findOneAndUpdate({ _id: req.params.uid },
-    { $set: {alloted_did: req.params.nid} },
-    { new: true })
-  .sort({ createdAt: 1 })
+  await User.findOneAndUpdate(
+    { _id: req.params.uid },
+    { $set: { alloted_did: req.params.nid } },
+    { new: true }
+  )
+    // .populate("alloted_did")
+    .sort({ createdAt: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };

@@ -1,10 +1,19 @@
 const Dstnumber = require("../models/dstnumber");
 const resp = require("../helpers/apiResponse");
 const fs = require("fs");
+const User = require("../models/user");
 
 exports.adddstnumber = async (req, res) => {
-  const { did_no, ip, alottedtouser, plan, ivr, extensions, is_used ,giventolevel1} =
-    req.body;
+  const {
+    did_no,
+    ip,
+    alottedtouser,
+    plan,
+    ivr,
+    extensions,
+    is_used,
+    giventolevel1,
+  } = req.body;
 
   const newDstnumber = new Dstnumber({
     did_no: did_no,
@@ -14,26 +23,27 @@ exports.adddstnumber = async (req, res) => {
     ivr: ivr,
     extensions: extensions,
     is_used: is_used,
-    giventolevel1:giventolevel1
+    giventolevel1: giventolevel1,
   });
-  // let dd = await User.findOne({ _id: req.body.alottedtouser });
-  // console.log("did_no", dd);
-  // if (dd) {
-  //   let find = await User.findOneAndUpdate(
-  //     {
-  //       _id: req.body.alottedtouser,
-  //     },
-  //     { $set: { alloted_did: req.body.did_no } },
-  //     {
-  //       new: true,
-  //     }
-  //   );
-  //   console.log("did_no", find);
-  // }
+
+  let dd = await User.findOne({ _id: req.body.alottedtouser });
+  console.log("did_no", dd);
+  if (dd) {
+    console.log(dd._id);
+    let find = await User.findOneAndUpdate(
+      {
+        _id: req.body.alottedtouser,
+      },
+      { $set: { alloted_did: req.body.did_no } },
+      {
+        new: true,
+      }
+    );
+    console.log("did_no", find);
+  }
   const findexist = await Dstnumber.findOne({ did_no: did_no });
   if (findexist) {
-    resp.alreadyr(res,'DID');
-
+    resp.alreadyr(res, "DID");
   } else {
     newDstnumber
       .save()
@@ -44,14 +54,14 @@ exports.adddstnumber = async (req, res) => {
 
 exports.editdstnumber = async (req, res) => {
   console.log(req.body);
-  const checkif = await Dstnumber.findOne({ _id: req.params.id })
+  const checkif = await Dstnumber.findOne({ _id: req.params.id });
   console.log(checkif);
   // req.body.giventolevel1 = req.body.assign;
   // delete req.body.assign
   // console.log(req.body);
-  if(checkif.giventolevel1 == null || checkif.giventolevel1 == undefined){
+  if (checkif.giventolevel1 == null || checkif.giventolevel1 == undefined) {
     req.body.giventolevel1 = req.body.assign;
-    delete req.body.assign
+    delete req.body.assign;
     console.log(req.body);
   }
   await Dstnumber.findOneAndUpdate(
@@ -74,7 +84,13 @@ exports.viewonedstnumber = async (req, res) => {
 exports.alldstnumber = async (req, res) => {
   await Dstnumber.find()
     .sort({ sortorder: 1 })
-    .populate("ip").populate('giventolevel1').populate('giventolevel2').populate('giventolevel3').populate('giventolevel4').populate('giventolevel5')
+    .populate("ip")
+    .populate("giventolevel1")
+    .populate("giventolevel2")
+    .populate("giventolevel3")
+    .populate("giventolevel4")
+    .populate("giventolevel5")
+    .populate("alottedtouser")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
@@ -88,24 +104,34 @@ exports.deletedstnumber = async (req, res) => {
 exports.addlldidno = async (req, res) => {
   const getnumbers = require("../data.json");
   console.log(getnumbers);
-  res.send(getnumbers.numbers)
+  res.send(getnumbers.numbers);
   await Dstnumber.insertMany(getnumbers.numbers)
-  .then((data) => resp.successr(res, data))
+    .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.mydstnumbers = async (req, res) => {
-  await Dstnumber.find({giventolevel1:req.staffId})
+  await Dstnumber.find({ giventolevel1: req.staffId })
     .sort({ sortorder: 1 })
-    .populate("ip").populate('giventolevel1').populate('giventolevel2').populate('giventolevel3').populate('giventolevel4').populate('giventolevel5')
+    .populate("ip")
+    .populate("giventolevel1")
+    .populate("giventolevel2")
+    .populate("giventolevel3")
+    .populate("giventolevel4")
+    .populate("giventolevel5")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.staffdstnumbers = async (req, res) => {
-  await Dstnumber.find({giventolevel1:req.params.id})
+  await Dstnumber.find({ giventolevel1: req.params.id })
     .sort({ sortorder: 1 })
-    .populate("ip").populate('giventolevel1').populate('giventolevel2').populate('giventolevel3').populate('giventolevel4').populate('giventolevel5')
+    .populate("ip")
+    .populate("giventolevel1")
+    .populate("giventolevel2")
+    .populate("giventolevel3")
+    .populate("giventolevel4")
+    .populate("giventolevel5")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
