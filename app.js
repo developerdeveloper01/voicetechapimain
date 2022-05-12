@@ -28,6 +28,9 @@ const paytm = require("./routes/paytm");
 const payumoney = require("./routes/payumoney");
 const systemdetails = require("./routes/systemdetails");
 const pospaidplan = require("./routes/pospaidplan");
+const invoice = require("./routes/invoice");
+
+
 
 
 
@@ -48,6 +51,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //Use
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/api", invoice);
 app.use("/api", user);
 app.use("/api", staff);
 app.use("/api", role);
