@@ -53,7 +53,7 @@ const thisSchema = new Schema(
     productinfo: {
       type: String,
     },
-    txnid: {
+    invoiceid: {
       type: String,
     },
   },

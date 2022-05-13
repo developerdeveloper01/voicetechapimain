@@ -25,7 +25,7 @@ exports.addinvoice = async (req, res) => {
     phone: phone,
     amount: amount,
     productinfo: productinfo,
-    txnid: Math.floor(Math.random() * 100000),
+    invoiceid: Math.floor(Math.random() * 100000),
     company: company,
     address: address,
     service: service,
