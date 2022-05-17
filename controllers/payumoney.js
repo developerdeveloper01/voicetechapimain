@@ -66,8 +66,11 @@ exports.paynownew = (req, res) => {
 
 exports.paysuccess = async (req, res) => {
   console.log(req.body);
+  console.log(res, "success response");
+  alert(res, "payment successfull");
+  window.close();
   //res.send(req.body);
-  res.redirect("http://3.111.139.178/#/transaction-success");
+  //res.redirect("http://3.111.139.178/#/transaction-success");
   // res
   //   .writeHead(400, {
   //     Location: `http://localhost:4200/#/dashboard`

@@ -6,6 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "alert-node": "^5.0.3",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.27.0",
     "cookie-parser": "~1.4.4",
