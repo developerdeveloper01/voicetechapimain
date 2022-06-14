@@ -270,7 +270,7 @@ exports.getweekdaywisedata = async (req, res) => {
 
   let onedayagocount = await Cdrreport.count({
     $and: [
-      { caller_id_name: "2581" },
+      { caller_id_name: req.params.id},
       {
         createdAt: {
           $gte: new Date(onedayago)
@@ -281,7 +281,7 @@ exports.getweekdaywisedata = async (req, res) => {
 
   let twodayagocount = await Cdrreport.count({
     $and: [
-      { caller_id_name: "2581" },
+      { caller_id_name: req.params.id },
       {
         createdAt: {
           $gte: new Date(twodayago),
@@ -293,7 +293,7 @@ exports.getweekdaywisedata = async (req, res) => {
 
   let threedayagocount = await Cdrreport.count({
     $and: [
-      { caller_id_name: "2581" },
+      { caller_id_name: req.params.id },
       {
         createdAt: {
           $gte: new Date(threedayago),
@@ -305,7 +305,7 @@ exports.getweekdaywisedata = async (req, res) => {
 
   let fourdayagocount = await Cdrreport.count({
     $and: [
-      { caller_id_name: "2581" },
+      { caller_id_name: req.params.id },
       {
         createdAt: {
           $gte: new Date(fourdayago),
@@ -317,7 +317,7 @@ exports.getweekdaywisedata = async (req, res) => {
 
   let fivedayagocount = await Cdrreport.count({
     $and: [
-      { caller_id_name: "2581" },
+      { caller_id_name: req.params.id },
       {
         createdAt: {
           $gte: new Date(fivedayago),
@@ -329,7 +329,7 @@ exports.getweekdaywisedata = async (req, res) => {
 
   let sixdayagocount = await Cdrreport.count({
     $and: [
-      { caller_id_name: "2581" },
+      { caller_id_name: req.params.id },
       {
         createdAt: {
           $gte: new Date(sixdayago),
@@ -341,7 +341,7 @@ exports.getweekdaywisedata = async (req, res) => {
 
   let sevendayagocount = await Cdrreport.count({
     $and: [
-      { caller_id_name: "2581" },
+      { caller_id_name: req.params.id },
       {
         createdAt: {
           $gte: new Date(sevendayago),
