@@ -13,7 +13,7 @@ exports.addcdrreport = async (req, res) => {
   const { Cdrreport, ip, alottedtouser, plan, ivr, extensions, inusestatus } =
     req.body;
 
-  const newCdrreport = new Cdrreport({
+    const newCdrreport = new Cdrreport({
     Cdrreport: Cdrreport,
     ip: ip,
     alottedtouser: alottedtouser,
