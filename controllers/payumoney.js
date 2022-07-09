@@ -16,6 +16,7 @@
 
 // let k = SHA512(key|command|var1|salt)
 // console.log(k)
+const Plan = require("../models/plan");
 
 var payumoney = require("payumoney_nodejs");
 payumoney.setProdKeys(

@@ -20,7 +20,7 @@ const {
 router.post("/admin/addstaff", addstaff);
 router.post("/admin/stafflogin", stafflogin);
 router.post("/admin/editstaff/:id", editstaff);
-router.get("/admin/viewonestaff/:id", viewonestaff);
+router.get("/admin/viewonestaff",verifyToken, viewonestaff);
 router.get("/admin/viewonestaff",verifyToken, viewstaffbytoken);
 router.post("/admin/addsubstaff",verifyToken, addsubstaff);
 router.get("/admin/viewmystaff",verifyToken, getstaffaddedbyuser);

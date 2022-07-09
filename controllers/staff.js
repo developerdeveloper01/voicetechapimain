@@ -106,7 +106,7 @@ exports.stafflogin = async (req, res) => {
           },
           key,
           {
-            expiresIn: "365d",
+            expiresIn: "1min",
           }
         );
         res.header("ad-token", token).status(200).send({
@@ -151,7 +151,7 @@ exports.editstaff = async (req, res) => {
 };
 
 exports.viewonestaff = async (req, res) => {
-  await Staff.findOne({ _id: req.params.id }).populate("role")
+  await Staff.findOne({ _id: req.staffId }).populate("role")
   .populate("added_by")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
