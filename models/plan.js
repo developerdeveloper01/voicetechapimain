@@ -5,6 +5,8 @@ const thisSchema = new Schema(
   
   
   {
+    userId :
+      { type: Schema.Types.ObjectId, ref: "user" },
     
       plantype: {
         type: String,

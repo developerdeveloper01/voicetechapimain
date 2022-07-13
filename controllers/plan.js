@@ -2,9 +2,10 @@ const Plan = require("../models/plan");
 const resp = require("../helpers/apiResponse");
 
 exports.addplan = async (req, res) => {
-  const { plantype,plantitle, planprice, validityday, minute_balance, desc } = req.body;
+  const {userId,plantype,plantitle, planprice, validityday, minute_balance, desc } = req.body;
 
   const newPlan = new Plan({
+    userId :userId,
     plantype:plantype,
     plantitle: plantitle,
     planprice: planprice,

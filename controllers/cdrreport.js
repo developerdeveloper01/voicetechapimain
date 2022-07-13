@@ -57,7 +57,7 @@ exports.viewreportsfromneronserver = async (req, res) => {
   var request = require("request");
   var options = {
     method: "GET",
-    url: `http://103.8.43.14/onyx/api/cdr?start_date=2021-10-25&end_date=2021-10-25`,
+    url: `http://3.111.139.178/onyx/api/cdr?start_date=2022-07-09&end_date=2022-12-07`,
     headers: { "content-type": "application/x-www-form-urlencoded" },
     form: {}
   };
@@ -77,7 +77,7 @@ exports.addreportstomongodb = async (req, res) => {
   var request = require("request");
   var options = {
     method: "GET",
-    url: `http://103.8.43.14/onyx/api/cdr?start_date=2021-12-07&end_date=2021-12-07`,
+    url: `http://103.8.43.14/onyx/api/cdr?start_date=2022-07-09&end_date=2022-12-07`,
     headers: { "content-type": "application/x-www-form-urlencoded" },
     form: {}
   };

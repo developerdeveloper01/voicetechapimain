@@ -9,14 +9,15 @@
 //Production Url
 //https://secure.payu.in/_payment
 
-// const key = "tAWheb";
+ const key = "tAWheb";
 // const command="get_Transaction_Details";
 // const var1="2020-10-20";
 // const salt = "6TACoPSn";
 
 // let k = SHA512(key|command|var1|salt)
 // console.log(k)
-const Plan = require("../models/plan");
+ const Plan = require("../models/plan");
+ const User = require("../models/user");
 
 var payumoney = require("payumoney_nodejs");
 payumoney.setProdKeys(
@@ -32,7 +33,8 @@ payumoney.setProdKeys(
 //   ();
 payumoney.isProdMode(true);
 
-exports.paynownew = (req, res) => {
+
+exports.paynownew =async (req, res) => {
   console.log(req.body);
   const { firstname, name, lastname, email, phone, amount, productInfo } =
     req.body;
@@ -47,7 +49,9 @@ exports.paynownew = (req, res) => {
     surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
     furl: "http://3.111.139.178/v1/api/admin/payfail"
   };
-  console.log(requestBody);
+  console.log("Req Body",requestBody);
+  //let result = await payumoney.create(requestBody);
+
   payumoney.pay(requestBody, function (error, response) {
     if (error) {
       console.log(error);
@@ -60,7 +64,7 @@ exports.paynownew = (req, res) => {
       res.json({
         response
       });
-      console.log(response);
+      console.log("res",response);
     }
   });
 };
@@ -84,6 +88,7 @@ exports.payfail = async (req, res) => {
   //res.send(req.body);
   res.redirect("http://3.111.139.178/#/transaction-failed");
 };
+
 
 // const request = require("request");
 // exports.paynow = (req, res) => {
@@ -135,4 +140,58 @@ exports.payfail = async (req, res) => {
 //       }
 //     }
 //   );
+// };
+
+
+// exports.payUMoneyPayment = async (req, res) => {
+//   //var jsSHA = require('jssha');
+//   if (
+//     !req.body.txnid ||
+//     !req.body.amount ||
+//     !req.body.productinfo ||
+//     !req.body.firstname ||
+//     !req.body.email
+//   ) {
+//     res.send('Mandatory fields missing');
+//   } else {
+//     var pd = req.body;
+//     var hashString =
+//       'tAWheb' + // Merchant Key
+//       '|' +
+//       pd.txnid +
+//       '|' +
+//       pd.amount +
+//       '|' +
+//       pd.productinfo +
+//       '|' +
+//       pd.firstname +
+//       '|' +
+//       pd.email +
+//       '|' +
+//       '||||||||||' +
+//       'JDhIbyZwnM'; // Your salt value
+//     var sha = new jsSHA('SHA-512', 'TEXT');
+//     sha.update(hashString);
+//     var hash = sha.getHash('HEX');
+//     res.send({ hash: hash });
+//   }
+// };
+
+
+// exports.fetchallpays = async (req, res) => {
+//   payumoney
+//     .all({
+//       from: "2022-07-10",
+//       to: "2022-07-13",
+//     })
+//     .then((response) => {
+//       res.json({
+//         response: response,
+//       });
+//     })
+//     .catch((error) => {
+//       res.json({
+//         error: error,
+//       });
+//     });
 // };
