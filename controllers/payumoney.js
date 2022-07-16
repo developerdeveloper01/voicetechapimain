@@ -38,8 +38,10 @@ payumoney.isProdMode(true);
 exports.paynownew =async (req, res) => {
   const plandetail = await Plan.findOne({ _id: req.params.planId });
   if (plandetail) {
+    console.log(plandetail)
     const userdetail = await User.findOne({ _id: req.params.userId });
     if (userdetail) {
+      console.log(userdetail)
       var data = new Insta.PaymentData();
 
       data.purpose = plandetail.plantitle;
