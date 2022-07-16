@@ -17,8 +17,11 @@ const thisSchema = new Schema(
     email: {
       type: String,
     },
-    mobile: {
+    phone: {
       type: Number,
+    },
+    mobile:{
+      type :Number
     },
     password: {
       type: String,

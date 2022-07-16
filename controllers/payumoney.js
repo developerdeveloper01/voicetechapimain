@@ -43,8 +43,8 @@ payumoney.isProdMode(true);
 //     const userdetail = await User.findOne({ _id: req.params.userId });
 //     if (userdetail) {
 //       console.log(userdetail)
-//       const data = new payumoney.PaymentData();
-
+//       const data = new payumoney.PaymentData ()
+// console.log("DATA",data)
 //       data.purpose = plandetail.plantitle;
 //       data.buyer_name = `${userdetail?.firstname} ${userdetail?.lastname}`;
 //       data.email = userdetail.email;
@@ -55,11 +55,11 @@ payumoney.isProdMode(true);
 //       data.currency = "INR";
 //      // data.setRedirectUrl("http://localhost:4200/membership-detail");
 
-//      payumoney.createPayment(data, function (error, response) {
+//      payumoney.pay(data, function (error, response) {
 //         if (error) {
 //           res.send(error);
 //         } else {
-//           //res.send(response);
+//           res.send(response);
 
 //           const jresponse = JSON.parse(response);
 
@@ -114,8 +114,8 @@ exports.paynownew =async (req, res) => {
   const { firstname, name, lastname, email, phone, amount, productInfo } =
     req.body;
   var requestBody = {
-    firstname: name,
-    lastname: name,
+    firstname: req.body.name,
+    lastname: req.body.name,
     email: email,
     phone: phone,
     amount: amount,
@@ -144,13 +144,20 @@ exports.paynownew =async (req, res) => {
   });
 };
 
+
+
+// exports.paynownew = async(req,res) =>{
+
+
+
+// }
 exports.paysuccess = async (req, res) => {
   console.log(req.body);
   console.log(res, "success response");
-  alert(res, "payment successfull");
-  window.close();
-  //res.send(req.body);
-  //res.redirect("http://3.111.139.178/#/transaction-success");
+  // alert(res, "payment successfull");
+  // window.close();
+  res.send(req.body);
+  // res.redirect("http://3.111.139.178/#/transaction-success");
   // res
   //   .writeHead(400, {
   //     Location: `http://localhost:4200/#/dashboard`
