@@ -153,7 +153,7 @@ payumoney.isProdMode(true);
 
 
 
-exports.paynownew = (req, res) => {
+exports.paynownew = async(req, res) => {
   console.log(req.body);
   const { firstname, name, lastname, email, phone, amount, productInfo } =
     req.body;
@@ -169,6 +169,8 @@ exports.paynownew = (req, res) => {
     furl: "http://3.111.139.178/v1/api/admin/payfail"
   };
   console.log(requestBody);
+
+  //  let result = await PayUmoney.create(requestBody);
   payumoney.pay(requestBody, function (error, response) {
     if (error) {
       console.log(error);
@@ -179,13 +181,15 @@ exports.paynownew = (req, res) => {
       //callback(null, { payulink: response });
       // You will get a link in response to redirect to payUMoney
       res.json({
-        response
+       // code:200,msg:'successfully',data:requestBody
+       response
       });
-      console.log(response);
+      console.log("DATA",response);
+
     }
   });
+     result = await PayUmoney.create(requestBody);
 };
-
 
  
 // exports.paynownew = async(req,res)=>{
@@ -237,24 +241,23 @@ exports.paynownew = (req, res) => {
 //   return serverRes
 // }); 
 // }
-
-// exports.fetchallpays = async (req, res) => {
-//   PayUmoney
-//     .find({
-//       from: "2022-07-17",
-//       to: "2022-05-22",
-//     })
-//     .then((response) => {
-//       res.json({
-//         response: response,
-//       });
-//     })
-//     .catch((error) => {
-//       res.json({
-//         error: error,
-//       });
-//     });
-// };
+exports.fetchallpays = async (req, res) => {
+  PayUmoney
+    .find({
+      from: "2022-07-17",
+      to: "2022-05-22",
+    })
+    .then((response) => {
+      res.json({
+        response: response,
+      });
+    })
+    .catch((error) => {
+      res.json({
+        error: error,
+      });
+    });
+};
 
 
 exports.paysuccess = async (req, res) => {
