@@ -153,7 +153,7 @@ payumoney.isProdMode(true);
 
 
 
-exports.paynownew = async(req, res) => {
+exports.paynownew = (req, res) => {
   console.log(req.body);
   const { firstname, name, lastname, email, phone, amount, productInfo } =
     req.body;
@@ -169,8 +169,6 @@ exports.paynownew = async(req, res) => {
     furl: "http://3.111.139.178/v1/api/admin/payfail"
   };
   console.log(requestBody);
-
-  //  let result = await PayUmoney.create(requestBody);
   payumoney.pay(requestBody, function (error, response) {
     if (error) {
       console.log(error);
@@ -181,15 +179,13 @@ exports.paynownew = async(req, res) => {
       //callback(null, { payulink: response });
       // You will get a link in response to redirect to payUMoney
       res.json({
-       // code:200,msg:'successfully',data:requestBody
-       response
+        response
       });
-      console.log("DATA",response);
-
+      console.log(response);
     }
   });
-    // result = await PayUmoney.create(requestBody);
 };
+
 
  
 // exports.paynownew = async(req,res)=>{
