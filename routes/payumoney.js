@@ -7,7 +7,7 @@ const { paynownew, paysuccess, payfail,fetchallpays } = require("../controllers/
 router.post("/admin/paynownew", paynownew);
 router.get("/admin/paysuccess", paysuccess);
 router.get("/admin/payfail", payfail);
- router.get("/admin/fetchallpays", fetchallpays);
+ //router.get("/admin/fetchallpays", fetchallpays);
 
 //router.post("/admin/verifypay", verifypay);
 

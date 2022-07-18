@@ -237,23 +237,24 @@ exports.paynownew = (req, res) => {
 //   return serverRes
 // }); 
 // }
-exports.fetchallpays = async (req, res) => {
-  PayUmoney
-    .find({
-      from: "2022-07-17",
-      to: "2022-05-22",
-    })
-    .then((response) => {
-      res.json({
-        response: response,
-      });
-    })
-    .catch((error) => {
-      res.json({
-        error: error,
-      });
-    });
-};
+
+// exports.fetchallpays = async (req, res) => {
+//   PayUmoney
+//     .find({
+//       from: "2022-07-17",
+//       to: "2022-05-22",
+//     })
+//     .then((response) => {
+//       res.json({
+//         response: response,
+//       });
+//     })
+//     .catch((error) => {
+//       res.json({
+//         error: error,
+//       });
+//     });
+// };
 
 
 exports.paysuccess = async (req, res) => {
