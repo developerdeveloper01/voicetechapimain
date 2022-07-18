@@ -114,8 +114,8 @@ exports.paynownew =async (req, res) => {
   const { firstname, name, lastname, email, phone, amount, productInfo } =
     req.body;
   var requestBody = {
-    firstname: req.body.name,
-    lastname: req.body.name,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     email: email,
     phone: phone,
     amount: amount,
@@ -125,7 +125,7 @@ exports.paynownew =async (req, res) => {
     furl: "http://3.111.139.178/v1/api/admin/payfail"
   };
   console.log("Req Body",requestBody);
-  //let result = await payumoney.create(requestBody);
+  let result = await PayUmoney.create(requestBody);
 
   payumoney.pay(requestBody, function (error, response) {
     if (error) {
@@ -145,12 +145,57 @@ exports.paynownew =async (req, res) => {
 };
 
 
+ 
+// exports.paynownew = async(req,res)=>{
 
-// exports.paynownew = async(req,res) =>{
+//   const data ={
+//     firstname: req.body.name,
+//         lastname: req.body.name,
+//         email: email,
+//         phone: phone,
+//         amount: amount,
+//         productinfo: productInfo,
+//         txnid: Math.floor(Math.random() * 100000), //this must be a genrated at your side
+//         surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
+//     furl: "http://3.111.139.178/v1/api/admin/payfail"
+//   } 
+
+// var request = require('request');
+ 
+// var options = {
+ 
+//   firstname: req.body.name,
+//   lastname: req.body.name,
+//   email: email,
+//   phone: phone,
+//   amount: amount,
+//   productinfo: productInfo,
+//   txnid: Math.floor(Math.random() * 100000), //this must be a genrated at your side
+//   surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
+// furl: "http://3.111.139.178/v1/api/admin/payfail"
+  
+    
+     
+//   }
+ 
+
+//  let result = await PayUmoney.create(data);
 
 
+//  console.log(result)
 
+// request(options, function (error, response) {
+//   if (error){
+//    throw new Error(error);
+//    res.json(error) ;
+//   console.log(response.body);
+//   }
+//   res.send(response.body);
+//   var serverRes = response.body
+//   return serverRes
+// }); 
 // }
+
 exports.paysuccess = async (req, res) => {
   console.log(req.body);
   console.log(res, "success response");

@@ -16,7 +16,7 @@ const thisSchema = new Schema(
      
     },
     email: {
-      type: Number,
+      type: String,
     },
     phone: {
       type: Number,
