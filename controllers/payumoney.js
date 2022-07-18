@@ -184,11 +184,11 @@ exports.paynownew = async(req, res) => {
        // code:200,msg:'successfully',data:requestBody
        response
       });
-      console.log("DATA",requestBody);
+      console.log("DATA",response);
 
     }
   });
-    result = await PayUmoney.create(requestBody);
+    // result = await PayUmoney.create(requestBody);
 };
 
  
