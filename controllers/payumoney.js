@@ -109,13 +109,57 @@ payumoney.isProdMode(true);
 // };
 
 
-exports.paynownew =async (req, res) => {
+
+//$$$$$$$$$$$$$$$$
+
+// exports.paynownew =async (req, res) => {
+//   console.log(req.body);
+//   const { firstname, name, lastname, email, phone, amount, productInfo } =
+//     req.body;
+//   var requestBody = {
+//     firstname: req.body.firstname,
+//     lastname: req.body.lastname,
+//     email: email,
+//     phone: phone,
+//     amount: amount,
+//     productinfo: productInfo,
+//     txnid: Math.floor(Math.random() * 100000), //this must be a genrated at your side
+//     surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
+//     furl: "http://3.111.139.178/v1/api/admin/payfail"
+//   };
+//   console.log("Req Body",requestBody);
+//   let result = await PayUmoney.create(requestBody);
+//   console.log("RESULT",result)
+
+//   payumoney.pay(requestBody, function (error, response) {
+//     if (error) {
+//       console.log(error);
+//       res.json({
+//         error
+//       });
+//     } else {
+//       //callback(null, { payulink: response });
+//       // You will get a link in response to redirect to payUMoney
+//       res.json(response);
+//       var serverRes = response
+//       return serverRes
+       
+//      }
+//      console.log("Res",serverRes)
+//   });
+// };
+
+// &&&&&&&&&&&&&&
+
+
+
+exports.paynownew = (req, res) => {
   console.log(req.body);
   const { firstname, name, lastname, email, phone, amount, productInfo } =
     req.body;
   var requestBody = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
+    firstname: name,
+    lastname: name,
     email: email,
     phone: phone,
     amount: amount,
@@ -124,10 +168,7 @@ exports.paynownew =async (req, res) => {
     surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
     furl: "http://3.111.139.178/v1/api/admin/payfail"
   };
-  console.log("Req Body",requestBody);
-  let result = await PayUmoney.create(requestBody);
-  console.log("RESULT",result)
-
+  console.log(requestBody);
   payumoney.pay(requestBody, function (error, response) {
     if (error) {
       console.log(error);
@@ -137,15 +178,13 @@ exports.paynownew =async (req, res) => {
     } else {
       //callback(null, { payulink: response });
       // You will get a link in response to redirect to payUMoney
-      res.json(response);
-      var serverRes = response
-      return serverRes
-       
-     }
-     console.log("Res",serverRes)
+      res.json({
+        response
+      });
+      console.log(response);
+    }
   });
 };
-
 
  
 // exports.paynownew = async(req,res)=>{
