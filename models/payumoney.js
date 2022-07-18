@@ -27,6 +27,9 @@ const thisSchema = new Schema(
     productinfo: {
       type: String,
     },
+    txnid:{
+      type:Number
+    }
   },
   { timestamps: true }
 );

@@ -158,8 +158,8 @@ exports.paynownew = async(req, res) => {
   const { firstname, name, lastname, email, phone, amount, productInfo } =
     req.body;
   var requestBody = {
-    firstname: firstname,
-    lastname: lastname,
+    firstname: name,
+    lastname: name,
     email: email,
     phone: phone,
     amount: amount,
@@ -180,41 +180,15 @@ exports.paynownew = async(req, res) => {
     } else {
       //callback(null, { payulink: response });
       // You will get a link in response to redirect to payUMoney
-     // const jresponse = JSON.parse(response);
+      res.json({
+        response
+      });
+      console.log(response);
 
-      const newpayreq = new PayUmoney({
-        lastname:  lastname,
-        amount:   amount,
-        phone:  phone, 
-        
-        email:  email,
-        
-      })
-        .save()
-        .then((data) => {
-          res.status(200).json({
-            status: true,
-            msg: "success",
-            data: data,
-            
-          });
-        })
-        .catch((error) => {
-          res.status(400).json({
-            status: false,
-            msg: "error",
-            error: error,
-          });
-        });
     }
   });
-} 
- 
-
-    
-  
-  //result = await PayUmoney.create(requestBody);
-
+   //result = await PayUmoney.create(requestBody);
+};
 
  
 // exports.paynownew = async(req,res)=>{
