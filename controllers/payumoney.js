@@ -181,19 +181,19 @@ exports.paynownew = async(req, res) => {
       
       //callback(null, { payulink: response });
       // You will get a link in response to redirect to payUMoney
-      res.json({
+      res.send({
        // code:200,msg:'successfully',data:requestBody
-       response,
-        if(response){
-          result =  PayUmoney.create(requestBody);
-        }
+         response,
       });
-      console.log("DATA",response);
+     
+      
+      console.log("STRING",response)
+      console.log("DATA",requestBody);
       
     }
    // result = await PayUmoney.create(requestBody);
   });
-    //  result = await PayUmoney.create(requestBody);
+    result = await PayUmoney.create(requestBody);
 };
 
  
