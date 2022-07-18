@@ -158,8 +158,8 @@ exports.paynownew = (req, res) => {
   const { firstname, name, lastname, email, phone, amount, productInfo } =
     req.body;
   var requestBody = {
-    firstname: firstname,
-    lastname: lastname,
+    firstname: name,
+    lastname: name,
     email: email,
     phone: phone,
     amount: amount,
