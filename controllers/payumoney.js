@@ -170,7 +170,7 @@ exports.paynownew = async(req, res) => {
   };
   console.log(requestBody);
 
-    let result = await PayUmoney.create(requestBody);
+  //  let result = await PayUmoney.create(requestBody);
   payumoney.pay(requestBody, function (error, response) {
     if (error) {
       console.log(error);
