@@ -182,7 +182,7 @@ exports.paynownew = async(req, res) => {
       // You will get a link in response to redirect to payUMoney
       res.json({
        // code:200,msg:'successfully',data:requestBody
-       requestBody
+       response
       });
       console.log("DATA",requestBody);
 
