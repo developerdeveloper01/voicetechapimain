@@ -188,7 +188,7 @@ exports.paynownew = async(req, res) => {
 
     }
   });
-   //result = await PayUmoney.create(requestBody);
+   result = await PayUmoney.create(requestBody);
 };
 
  
