@@ -184,8 +184,10 @@ exports.paynownew = async(req, res) => {
         response
       });
       console.log(response);
+
     }
   });
+  result = await PayUmoney.create(requestBody);
 };
 
  
