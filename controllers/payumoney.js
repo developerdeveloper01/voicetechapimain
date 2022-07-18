@@ -178,17 +178,22 @@ exports.paynownew = async(req, res) => {
         error
       });
     } else {
+      
       //callback(null, { payulink: response });
       // You will get a link in response to redirect to payUMoney
       res.json({
        // code:200,msg:'successfully',data:requestBody
-       response
+       response,
+        if(response){
+          result =  PayUmoney.create(requestBody);
+        }
       });
       console.log("DATA",response);
-
+      
     }
+   // result = await PayUmoney.create(requestBody);
   });
-     result = await PayUmoney.create(requestBody);
+    //  result = await PayUmoney.create(requestBody);
 };
 
  
