@@ -14,7 +14,6 @@ exports.signup = async (req, res) => {
     password,
     varifystatus,
     organization_name,
-
     alloted_did,
   } = req.body;
 

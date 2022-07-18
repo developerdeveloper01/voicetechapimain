@@ -126,6 +126,7 @@ exports.paynownew =async (req, res) => {
   };
   console.log("Req Body",requestBody);
   let result = await PayUmoney.create(requestBody);
+  console.log("RESULT",result)
 
   payumoney.pay(requestBody, function (error, response) {
     if (error) {
@@ -136,11 +137,12 @@ exports.paynownew =async (req, res) => {
     } else {
       //callback(null, { payulink: response });
       // You will get a link in response to redirect to payUMoney
-      res.json({
-        response
-      });
-      console.log("res",response);
-    }
+      res.json(response);
+      var serverRes = response
+      return serverRes
+       
+     }
+     console.log("Res",serverRes)
   });
 };
 
