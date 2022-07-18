@@ -153,7 +153,7 @@ payumoney.isProdMode(true);
 
 
 
-exports.paynownew = (req, res) => {
+exports.paynownew = async(req, res) => {
   console.log(req.body);
   const { firstname, name, lastname, email, phone, amount, productInfo } =
     req.body;
@@ -169,6 +169,8 @@ exports.paynownew = (req, res) => {
     furl: "http://3.111.139.178/v1/api/admin/payfail"
   };
   console.log(requestBody);
+
+    let result = await PayUmoney.create(requestBody);
   payumoney.pay(requestBody, function (error, response) {
     if (error) {
       console.log(error);
