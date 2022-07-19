@@ -155,7 +155,7 @@ payumoney.isProdMode(true);
 
 exports.paynownew = async(req, res) => {
   console.log(req.body);
-  const { firstname, name, lastname, email, phone, amount, productInfo } =
+  const { firstname, name, lastname, email, phone, amount, productInfo ,status} =
     req.body;
   var requestBody = {
     firstname: name,
@@ -164,7 +164,8 @@ exports.paynownew = async(req, res) => {
     phone: phone,
     amount: amount,
     productinfo: productInfo,
-    txnid: Math.floor(Math.random() * 100000), //this must be a genrated at your side
+    txnid: Math.floor(Math.random() * 100000),
+    status: status,//this must be a genrated at your side
     surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
     furl: "http://3.111.139.178/v1/api/admin/payfail"
   };

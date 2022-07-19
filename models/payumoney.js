@@ -29,6 +29,9 @@ const thisSchema = new Schema(
     },
     txnid:{
       type:Number
+    },
+    status:{
+      type:String
     }
   },
   { timestamps: true }
