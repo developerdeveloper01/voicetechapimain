@@ -165,7 +165,8 @@ exports.paynownew = async(req, res) => {
     amount: amount,
     productinfo: productInfo,
     txnid: Math.floor(Math.random() * 100000),
-    status: status,//this must be a genrated at your side
+    status: status,
+    //this must be a genrated at your side
     surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
     furl: "http://3.111.139.178/v1/api/admin/payfail"
   };
