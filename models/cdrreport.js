@@ -39,6 +39,9 @@ const cdrSchema = new Schema(
     created_time: {
       type: String,
     },
+    mobile:{
+      type: Number,
+    }
   },
   { timestamps: true }
 );

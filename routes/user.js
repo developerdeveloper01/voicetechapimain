@@ -16,6 +16,8 @@ const {
 
 router.post("/user/signup", signup);
 router.post("/user/login", login);
+
+//router.post("/user/login", login);
 router.post("/user/setting", verifyToken, setting);
 router.get("/user/myprofile", verifyToken, myprofile);
 router.post("/admin/edituser/:id", edituser);
