@@ -300,7 +300,7 @@ exports.paynownew = async(req, res) => {
    // result = await PayUmoney.create(requestBody);
   });
 
-
+if(status == "success"){
  const newPayUmoney = PayUmoney({
   mihpayid:mihpayid,
   firstname: name,
@@ -317,7 +317,8 @@ exports.paynownew = async(req, res) => {
  newPayUmoney
  .save()
  .then(async(data)=>{
-  if(data.get("mihpayid") != undefined || data.get("mihpayid") !=null || data.get("mihpayid") || data.get //("razorpay_payment_id").length <=0 )
+  if(data.get("mihpayid") != undefined || data.get("mihpayid") !=null 
+  //|| data.get("mihpayid") || data.get //("razorpay_payment_id").length <=0 )
   )
 //{
 //console.log(data)
@@ -364,6 +365,10 @@ console.log("DATA",data)
   //}
   
 })
+}
+else{
+  
+}
 };
 exports.fetchallpays = async (req, res) => {
   PayUmoney
