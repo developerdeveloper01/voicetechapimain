@@ -21,6 +21,7 @@ const Plan = require("../models/plan");
  const User = require("../models/user");
 const PayUmoney = require("../models/payumoney")
 var payumoney = require("payumoney_nodejs");
+const { pay } = require("payumoney_nodejs");
 payumoney.setProdKeys(
   "tAWheb", //MERCHANT_KEY,
   "6TACoPSn", //MERCHANT_SALT,
@@ -274,102 +275,110 @@ exports.paynownew = async(req, res) => {
   };
   console.log(requestBody);
 
+
+  try{
+    const response = await  PayUmoney.create(requestBody)
+    console.log(response)
+  }catch (error){
+    console.log(error)
+  }
+}
   //  let result = await PayUmoney.create(requestBody);
-  payumoney.pay(requestBody, function (error, response) {
-    if (error) {
-      console.log(error);
-      res.json({
-        error
-      });
-    } else {
+  // payumoney.pay(requestBody, function (error, response) {
+  //   if (error) {
+  //     console.log(error);
+  //     res.json({
+  //       error
+  //     });
+  //   } else {
       
-      //callback(null, { payulink: response });
-      // You will get a link in response to redirect to payUMoney
-      res.send({
-       // code:200,msg:'successfully',data:requestBody
-         response,
-      });
+  //     //callback(null, { payulink: response });
+  //     // You will get a link in response to redirect to payUMoney
+  //     res.send({
+  //      // code:200,msg:'successfully',data:requestBody
+  //        response,
+  //     });
      
       
-      console.log("STRING",response)
-      console.log("DATA",requestBody);
+  //     console.log("STRING",response)
+  //     console.log("DATA",requestBody);
       
-    }
+  //   }
 
 
-   // result = await PayUmoney.create(requestBody);
-  });
+  //  // result = await PayUmoney.create(requestBody);
+  // });
 
-if(status == "success"){
- const newPayUmoney = PayUmoney({
-  mihpayid:mihpayid,
-  firstname: name,
-  lastname: name,
-  email: email,
-  phone: phone,
-  amount: amount,
-  productinfo: productInfo,
-  txnid: Math.floor(Math.random() * 100000),
-  status: status,
-   // result = await PayUmoney.create(requestBody)
- })
- 
- newPayUmoney
- .save()
- .then(async(data)=>{
-  if(data.get("mihpayid") != undefined || data.get("mihpayid") !=null 
-  //|| data.get("mihpayid") || data.get //("razorpay_payment_id").length <=0 )
-  )
-//{
-//console.log(data)
-//let x = data.get
- 
-// var newarr = x.map(function (value) {
-//   return value.hasSubscribed
-// })
-//let bb = x.map(hasSubscribed)
-// let z = x.hasSubscribed
-//console.log("ABC",z)
-
-
-console.log("DATA",data)
-// if(x){
-// const y = await seller.findOneAndUpdate(
-//         { _id:req.sellerId },
-//         { $set: { hasSubscribed: true } },
-//         { new: true }
-// )
-// // console.log("bunny",x)
-//  //console.log(y)
-// // console.log("true", y);
-// .then((data) => {
-// res.status(200).json({
-//   status: true,
-//       msg: "success",
-//       date : det
-//      // date : 
-//     //  data: data,
-//     // seller:y
-// })
+// if(status == "success"){
+//  const newPayUmoney = PayUmoney({
+//   mihpayid:mihpayid,
+//   firstname: name,
+//   lastname: name,
+//   email: email,
+//   phone: phone,
+//   amount: amount,
+//   productinfo: productInfo,
+//   txnid: Math.floor(Math.random() * 100000),
+//   status: status,
+//    // result = await PayUmoney.create(requestBody)
 //  })
-// .catch((error) => {
-//     res.status(400).json({
-//       status: false,
-//       msg: "error",
-//       error: error,
-//     });
-//   });
-//  //     console.log(y)
-// //     console.log("true", y);
-// } 
-  //}
+ 
+//  newPayUmoney
+//  .save()
+//  .then(async(data)=>{
+//   if(data.get("mihpayid") != undefined || data.get("mihpayid") !=null 
+//   //|| data.get("mihpayid") || data.get //("razorpay_payment_id").length <=0 )
+//   )
+// //{
+// //console.log(data)
+// //let x = data.get
+ 
+// // var newarr = x.map(function (value) {
+// //   return value.hasSubscribed
+// // })
+// //let bb = x.map(hasSubscribed)
+// // let z = x.hasSubscribed
+// //console.log("ABC",z)
+
+
+// console.log("DATA",data)
+// // if(x){
+// // const y = await seller.findOneAndUpdate(
+// //         { _id:req.sellerId },
+// //         { $set: { hasSubscribed: true } },
+// //         { new: true }
+// // )
+// // // console.log("bunny",x)
+// //  //console.log(y)
+// // // console.log("true", y);
+// // .then((data) => {
+// // res.status(200).json({
+// //   status: true,
+// //       msg: "success",
+// //       date : det
+// //      // date : 
+// //     //  data: data,
+// //     // seller:y
+// // })
+// //  })
+// // .catch((error) => {
+// //     res.status(400).json({
+// //       status: false,
+// //       msg: "error",
+// //       error: error,
+// //     });
+// //   });
+// //  //     console.log(y)
+// // //     console.log("true", y);
+// // } 
+//   //}
   
-})
-}
-else{
-  
-}
-};
+// })
+// }
+// else{
+
+// }
+
 exports.fetchallpays = async (req, res) => {
   PayUmoney
     .find({
