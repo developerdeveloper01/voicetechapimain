@@ -313,7 +313,8 @@ exports.paynownew = async(req, res) => {
   status: status,
    // result = await PayUmoney.create(requestBody)
  })
-
+ 
+ newPayUmoney
  .save()
  .then(async(data)=>{
   if(data.get("mihpayid") != undefined || data.get("mihpayid") !=null || data.get("mihpayid") || data.get //("razorpay_payment_id").length <=0 )
