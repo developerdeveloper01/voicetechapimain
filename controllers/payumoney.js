@@ -198,6 +198,57 @@ exports.paynownew = async(req, res) => {
    // result = await PayUmoney.create(requestBody);
 };
 
+
+
+
+exports.paynownew = async(req,res)=>{
+  console.log(req.body);
+  const { firstname, name, lastname, email, phone, amount, productInfo ,status} =
+    req.body;
+      var requestBody ={
+        firstname: name,
+    lastname: name,
+    email: email,
+    phone: phone,
+    amount: amount,
+    productinfo: productInfo,
+    txnid: Math.floor(Math.random() * 100000),
+    status: status,
+    //this must be a genrated at your side
+    surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
+    furl: "http://3.111.139.178/v1/api/admin/payfail"
+
+      }
+      console.log(requestBody);
+  
+      var request = require('request');
+
+// let result = await PayUmoney.create(requestBody); 
+//console.log(result)
+
+payumoney.pay(requestBody, function (error, response) {
+      if (error) {
+        console.log(error);
+        res.json({
+          error
+        });
+      } else {
+        //callback(null, { payulink: response });
+        // You will get a link in response to redirect to payUMoney
+        res.json(response);
+        var serverRes = response
+        return serverRes
+         
+       }
+       console.log("Res",serverRes)
+    });
+  };
+ 
+
+  
+
+ 
+
  
 // exports.paynownew = async(req,res)=>{
 
