@@ -244,11 +244,6 @@ payumoney.pay(requestBody, function (error, response) {
     });
   };
  
-
-  
-
- 
-
  
 // exports.paynownew = async(req,res)=>{
 
@@ -323,8 +318,10 @@ exports.paysuccess = async (req, res) => {
   console.log(res, "success response");
   // alert(res, "payment successfull");
   // window.close();
-  res.send(req.body);
-  // res.redirect("http://3.111.139.178/#/transaction-success");
+  //res.send(req.body);
+
+  res.redirect("http://3.111.139.178/v1/api/admin/paysuccess")
+ // res.redirect("http://3.111.139.178/#/transaction-success");
   // res
   //   .writeHead(400, {
   //     Location: `http://localhost:4200/#/dashboard`
