@@ -320,8 +320,8 @@ exports.paysuccess = async (req, res) => {
   // window.close();
   //res.send(req.body);
 
-   
-  res.redirect("http://3.111.139.178/#/transaction-success");
+  res.send(req.body);
+ // res.redirect("http://3.111.139.178/#/transaction-success");
   // res
   //   .writeHead(400, {
   //     Location: `http://localhost:4200/#/dashboard`
