@@ -16,6 +16,7 @@
 
 // let k = SHA512(key|command|var1|salt)
 // console.log(k)
+const jsSHA = require('jssha');
 
 const Plan = require("../models/plan");
  const User = require("../models/user");
@@ -36,121 +37,7 @@ payumoney.isProdMode(true);
 
 
 
-// exports.paynownew =async (req, res) => {
-//   const plandetail = await Plan.findOne({ _id: req.params.planId });
-//   if (plandetail) {
-//     console.log(plandetail)
-//     const userdetail = await User.findOne({ _id: req.params.userId });
-//     if (userdetail) {
-//       console.log(userdetail)
-//       const data = new payumoney.PaymentData ()
-// console.log("DATA",data)
-//       data.purpose = plandetail.plantitle;
-//       data.buyer_name = `${userdetail?.firstname} ${userdetail?.lastname}`;
-//       data.email = userdetail.email;
-//       data.phone = userdetail.mobile;
-//       // data.send_sms = "False";
-//       // data.send_email = "False";
-//      // data.amount = plandetail.website_rate;
-//       data.currency = "INR";
-//      // data.setRedirectUrl("http://localhost:4200/membership-detail");
-
-//      payumoney.pay(data, function (error, response) {
-//         if (error) {
-//           res.send(error);
-//         } else {
-//           res.send(response);
-
-//           const jresponse = JSON.parse(response);
-
-//           const newpayreq = new PayUmoney({
-//             purpose: jresponse.payment_request.purpose,
-//             amount: jresponse.payment_request.amount,
-//             mobile: jresponse.payment_request.mobile, 
-//             buyer_name: jresponse.payment_request.buyer_name,
-//             created_at: jresponse.payment_request.created_at,
-//             email: jresponse.payment_request.email,
-//             id: jresponse.payment_request.id,
-//             longurl: jresponse.payment_request.longurl,
-//             status: jresponse.payment_request.status,
-//           })
-//             .save()
-//             .then((data) => {
-//               res.status(200).json({
-//                 status: true,
-//                 msg: "success",
-//                 data: data,
-//                 response: jresponse,
-//               });
-//             })
-//             .catch((error) => {
-//               res.status(400).json({
-//                 status: false,
-//                 msg: "error",
-//                 error: error,
-//               });
-//             });
-//         }
-//       });
-//     } else {
-//       res.status(400).json({
-//         status: false,
-//         msg: "User not found",
-//         error: "error",
-//       });
-//     }
-//   } else {
-//     res.status(400).json({
-//       status: false,
-//       msg: "Plan not found",
-//       error: "error",
-//     });
-//   }
-// };
-
-
-
-//$$$$$$$$$$$$$$$$
-
-// exports.paynownew =async (req, res) => {
-//   console.log(req.body);
-//   const { firstname, name, lastname, email, phone, amount, productInfo } =
-//     req.body;
-//   var requestBody = {
-//     firstname: req.body.firstname,
-//     lastname: req.body.lastname,
-//     email: email,
-//     phone: phone,
-//     amount: amount,
-//     productinfo: productInfo,
-//     txnid: Math.floor(Math.random() * 100000), //this must be a genrated at your side
-//     surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
-//     furl: "http://3.111.139.178/v1/api/admin/payfail"
-//   };
-//   console.log("Req Body",requestBody);
-//   let result = await PayUmoney.create(requestBody);
-//   console.log("RESULT",result)
-
-//   payumoney.pay(requestBody, function (error, response) {
-//     if (error) {
-//       console.log(error);
-//       res.json({
-//         error
-//       });
-//     } else {
-//       //callback(null, { payulink: response });
-//       // You will get a link in response to redirect to payUMoney
-//       res.json(response);
-//       var serverRes = response
-//       return serverRes
-       
-//      }
-//      console.log("Res",serverRes)
-//   });
-// };
-
-// &&&&&&&&&&&&&&
-
+ 
 
 
 exports.paynownew = async(req, res) => {
@@ -201,115 +88,41 @@ exports.paynownew = async(req, res) => {
 
 
 
-exports.paynownew = async(req,res)=>{
-  console.log(req.body);
-  const { firstname, name, lastname, email, phone, amount, productInfo ,status} =
-    req.body;
-      var requestBody ={
-        firstname: name,
-    lastname: name,
-    email: email,
-    phone: phone,
-    amount: amount,
-    productinfo: productInfo,
-    txnid: Math.floor(Math.random() * 100000),
-    status: status,
-    //this must be a genrated at your side
-    surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
-    furl: "http://3.111.139.178/v1/api/admin/payfail"
 
-      }
-      console.log(requestBody);
-  
-      var request = require('request');
-
-// let result = await PayUmoney.create(requestBody); 
-//console.log(result)
-
-payumoney.pay(requestBody, function (error, response) {
-      if (error) {
-        console.log(error);
-        res.json({
-          error
-        });
-      } else {
-        //callback(null, { payulink: response });
-        // You will get a link in response to redirect to payUMoney
-        res.json(response);
-        var serverRes = response
-        return serverRes
-         
-       }
-       console.log("Res",serverRes)
-    });
-  };
  
- 
-// exports.paynownew = async(req,res)=>{
-
-//   const data ={
-//     firstname: req.body.name,
-//         lastname: req.body.name,
-//         email: email,
-//         phone: phone,
-//         amount: amount,
-//         productinfo: productInfo,
-//         txnid: Math.floor(Math.random() * 100000), //this must be a genrated at your side
-//         surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
-//     furl: "http://3.111.139.178/v1/api/admin/payfail"
-//   } 
-
-// var request = require('request');
- 
-// var options = {
- 
-//   firstname: req.body.name,
-//   lastname: req.body.name,
-//   email: email,
-//   phone: phone,
-//   amount: amount,
-//   productinfo: productInfo,
-//   txnid: Math.floor(Math.random() * 100000), //this must be a genrated at your side
-//   surl: "http://3.111.139.178/v1/api/admin/paysuccess", //http://localhost:6789/api/admin/paynownew
-// furl: "http://3.111.139.178/v1/api/admin/payfail"
-  
-    
-     
-//   }
- 
-
-//  let result = await PayUmoney.create(data);
-
-
-//  console.log(result)
-
-// request(options, function (error, response) {
-//   if (error){
-//    throw new Error(error);
-//    res.json(error) ;
-//   console.log(response.body);
-//   }
-//   res.send(response.body);
-//   var serverRes = response.body
-//   return serverRes
-// }); 
+// exports.payUMoneyPaymentResponse = function (req, res) {
+//   var pay = req.body;
+//   //Generate new Hash 
+//    var hashString =  '|' + pay.status + '||||||||||' + '|' + pay.email + '|' + pay.firstname + '|' + pay.productinfo + '|' + pay.amount + '|' + pay.txnid 
+//    var sha = new jsSHA('SHA-512', "TEXT");
+//    sha.update(hashString)
+//    var hash = sha.getHash("HEX");
+//    // Verify the new hash with the hash value in response
+//    if (hash == pay.hash) {
+//        res.send({'status':pd.status});
+//    } else {
+//        res.send({'status':"Error occured"});
+//    }
 // }
 exports.fetchallpays = async (req, res) => {
-  PayUmoney
-    .find({
+ const alldaa =  payumoney
+    .pay({
       from: "2022-07-17",
       to: "2022-05-22",
     })
-    .then((response) => {
-      res.json({
-        response: response,
-      });
-    })
-    .catch((error) => {
-      res.json({
-        error: error,
-      });
-    });
+     
+      res.send(req.body);
+     
+    // .then((response) => {
+    //   res.json({
+    //     response: response,
+    //   });
+    // })
+    // .catch((error) => {
+    //   res.json({
+    //     error: error,
+    //   });
+    // });
 };
 
 
@@ -318,7 +131,7 @@ exports.paysuccess = async (req, res) => {
   console.log(res, "success response");
   // alert(res, "payment successfull");
   // window.close();
-  //res.send(req.body);
+ 
 
   res.send(req.body);
  // res.redirect("http://3.111.139.178/#/transaction-success");
@@ -388,56 +201,4 @@ exports.payfail = async (req, res) => {
 //   );
 // };
 
-
-// exports.payUMoneyPayment = async (req, res) => {
-//   //var jsSHA = require('jssha');
-//   if (
-//     !req.body.txnid ||
-//     !req.body.amount ||
-//     !req.body.productinfo ||
-//     !req.body.firstname ||
-//     !req.body.email
-//   ) {
-//     res.send('Mandatory fields missing');
-//   } else {
-//     var pd = req.body;
-//     var hashString =
-//       'tAWheb' + // Merchant Key
-//       '|' +
-//       pd.txnid +
-//       '|' +
-//       pd.amount +
-//       '|' +
-//       pd.productinfo +
-//       '|' +
-//       pd.firstname +
-//       '|' +
-//       pd.email +
-//       '|' +
-//       '||||||||||' +
-//       'JDhIbyZwnM'; // Your salt value
-//     var sha = new jsSHA('SHA-512', 'TEXT');
-//     sha.update(hashString);
-//     var hash = sha.getHash('HEX');
-//     res.send({ hash: hash });
-//   }
-// };
-
-
-// exports.fetchallpays = async (req, res) => {
-//   payumoney
-//     .all({
-//       from: "2022-07-10",
-//       to: "2022-07-13",
-//     })
-//     .then((response) => {
-//       res.json({
-//         response: response,
-//       });
-//     })
-//     .catch((error) => {
-//       res.json({
-//         error: error,
-//       });
-//     });
-// };
+ 
